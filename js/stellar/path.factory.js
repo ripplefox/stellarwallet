@@ -26,7 +26,7 @@ myApp.factory('StellarPath', ['$rootScope', function($rootScope) {
     },
 
     get(src, dest, code, issuer, amount, callback) {
-      _server.paths(src, dest, getAsset(code, issuer), amount).call().then((data) => {
+      _server.strictReceivePaths(src, getAsset(code, issuer), amount).call().then((data) => {
         callback(null, data);
       }).catch((err) => {
         console.error(amount, code, issuer, err);

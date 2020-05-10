@@ -8,6 +8,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
     let _closeTxStream;  // function that closes a stream.
     let _subentry = 0;
     let _server;
+    let _passphrase;
     let _timeout = 45;
     let _basefee = 100;
 
@@ -29,6 +30,17 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
 
       get address() {
         return AuthenticationFactory.address;
+      },
+      
+      _txbuilder(account, memo) {
+        var option = {
+          fee : _basefee,
+          networkPassphrase : _passphrase
+        };
+        if (memo) {
+          option.memo = memo; 
+        }
+        return new StellarSdk.TransactionBuilder(account, option);
       },
 
       _updateSeq(account) {
@@ -65,7 +77,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
             startingBalance: amount.toString()
           });
           const memo = new StellarSdk.Memo(memo_type, memo_value);
-          const te = new StellarSdk.TransactionBuilder(account, {memo: memo, fee: _basefee}).addOperation(payment).setTimeout(_timeout).build();
+          const te = this._txbuilder(account, memo).addOperation(payment).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -88,7 +100,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
             amount: amount.toString()
           });
           const memo = new StellarSdk.Memo(memo_type, memo_value);
-          const te = new StellarSdk.TransactionBuilder(account, {memo:memo, fee: _basefee}).addOperation(payment).setTimeout(_timeout).build();
+          const te = this._txbuilder(account, memo).addOperation(payment).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -111,7 +123,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
             amount: amount.toString()
           });
           const memo = new StellarSdk.Memo(memo_type, memo_value);
-          const te = new StellarSdk.TransactionBuilder(account, {memo:memo, fee: _basefee}).addOperation(payment).setTimeout(_timeout).build();
+          const te = this._txbuilder(account, memo).addOperation(payment).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -161,7 +173,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
             amount: amount.toString(),
             price : price.toString()
           });
-          const te = new StellarSdk.TransactionBuilder(account, {fee: _basefee}).addOperation(op).setTimeout(_timeout).build();
+          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -207,8 +219,8 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
       setServer(url, passphrase, allowHttp=false) {
         if(!url) throw new Error('No URL')
         console.debug("Use Network: " + url + ', Passphrase: ' + passphrase);
-        StellarSdk.Network.use(new StellarSdk.Network(passphrase));
         _server = new StellarSdk.Server(url, {allowHttp});
+        _passphrase = passphrase;
         StellarHistory.setServer(_server);
         StellarOrderbook.setServer(_server);
         StellarPath.setServer(_server);
@@ -265,7 +277,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         }
         _server.loadAccount(this.address).then((account) => {
           this._updateSeq(account);
-          const pathPayment = StellarSdk.Operation.pathPayment({
+          const pathPayment = StellarSdk.Operation.pathPaymentStrictReceive({
             destination: this.address,
             sendAsset  : getAsset(alt.src_code, alt.src_issuer),
             sendMax    : sendMax,
@@ -273,7 +285,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
             destAmount : alt.origin.destination_amount,
             path       : path
           });
-          const te = new StellarSdk.TransactionBuilder(account, {fee: _basefee}).addOperation(pathPayment).setTimeout(_timeout).build();
+          const te = this._txbuilder(account).addOperation(pathPayment).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -338,7 +350,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
             asset: asset,
             limit: limit.toString()
           });
-          const te = new StellarSdk.TransactionBuilder(account, {fee: _basefee}).addOperation(op).setTimeout(_timeout).build();
+          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -359,7 +371,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         _server.loadAccount(this.address).then((account) => {
           this._updateSeq(account);
           const op = StellarSdk.Operation.setOptions(opt);
-          const te = new StellarSdk.TransactionBuilder(account, {fee: _basefee}).addOperation(op).setTimeout(_timeout).build();
+          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -378,7 +390,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         _server.loadAccount(this.address).then((account) => {
           this._updateSeq(account);
           const op = StellarSdk.Operation.manageData(opt);
-          const te = new StellarSdk.TransactionBuilder(account, {fee: _basefee}).addOperation(op).setTimeout(_timeout).build();
+          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -397,7 +409,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         _server.loadAccount(this.address).then((account) => {
           this._updateSeq(account);
           const op = StellarSdk.Operation.accountMerge(opt);
-          const te = new StellarSdk.TransactionBuilder(account, {fee: _basefee}).addOperation(op).setTimeout(_timeout).build();
+          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
@@ -534,7 +546,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
             price : price,
             offerId : offer_id
           });
-          const te = new StellarSdk.TransactionBuilder(account, {fee: _basefee}).addOperation(op).setTimeout(_timeout).build();
+          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
           return _server.submitTransaction(te);
