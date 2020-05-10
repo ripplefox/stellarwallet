@@ -1,4 +1,6 @@
 /* globals angular, gateways, nw, translate_cn, translate_en, translate_fr, translate_br */
+window.appinfo = require('./package.json');
+
 /* exported myApp */
 var myApp = angular.module('myApp', ['ngRoute', 'pascalprecht.translate', 'chart.js', 'monospaced.qrcode']);
 
