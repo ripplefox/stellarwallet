@@ -2,11 +2,14 @@
 
 myApp.factory('StellarHistory', ['$rootScope', 'SettingFactory', function($rootScope, SettingFactory) {
   let _server;
+  let _passphrase;
 
   return {
 
-    setServer(server) {
+    setServer(server, passphrase) {
       _server = server;
+      _passphrase = passphrase;
+      
     },
 
     payments(addressOrPage, callback) {
@@ -31,7 +34,9 @@ myApp.factory('StellarHistory', ['$rootScope', 'SettingFactory', function($rootS
             success: r.transaction_successful
           };
           switch(r.type) {
-            case 'payment': {
+            case 'payment': 
+            case 'path_payment_strict_receive':
+            case 'path_payment_strict_send': {
               t.isInbound = r.to == address;
               t.counterparty = t.isInbound ? r.from : r.to;
               t.asset = r.asset_type == "native" ? {code: SettingFactory.getCoin()} : {code:r.asset_code, issuer: r.asset_issuer};
@@ -44,6 +49,11 @@ myApp.factory('StellarHistory', ['$rootScope', 'SettingFactory', function($rootS
               t.asset = {code: SettingFactory.getCoin()};
               t.amount = parseFloat(r.starting_balance);
               break;
+            }
+            case 'account_merge' : {
+              t.isInbound = r.into == address;
+              t.counterparty = t.isInbound ? r.source_account : r.into;
+              t.asset = {code: SettingFactory.getCoin()};
             }
             default: {
               // add quite empty line.
@@ -117,7 +127,7 @@ myApp.factory('StellarHistory', ['$rootScope', 'SettingFactory', function($rootS
     },
 
     processTx(record, address) {
-      let tx = new StellarSdk.Transaction(record.envelope_xdr);
+      let tx = new StellarSdk.Transaction(record.envelope_xdr, _passphrase);
       let resultXdr = StellarSdk.xdr.TransactionResult.fromXDR(record.result_xdr, 'base64');
 
       let result = {

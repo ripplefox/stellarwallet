@@ -221,7 +221,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         console.debug("Use Network: " + url + ', Passphrase: ' + passphrase);
         _server = new StellarSdk.Server(url, {allowHttp});
         _passphrase = passphrase;
-        StellarHistory.setServer(_server);
+        StellarHistory.setServer(_server, _passphrase);
         StellarOrderbook.setServer(_server);
         StellarPath.setServer(_server);
       },
