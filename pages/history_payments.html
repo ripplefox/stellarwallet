@@ -1,0 +1,55 @@
+<section class="col-xs-12 content">
+	<group>
+	<div class="so-back islandBack islandBack--t">
+		<div class="island">
+			<div class="island__header">{{'latest_payments' | translate}}
+				<a class="btn btn-success btn-sm" ng-click="refresh()" ng-disabled="loading">
+					<span class="glyphicon glyphicon-refresh"></span> {{'refresh' | translate}}</a>
+
+			</div>
+			<div class="AddTrustFromDirectory">
+				<div class="s-alert s-alert--alert" ng-show="error_msg">
+						<ul class="AddTrust__errorList">
+							<li>{{error_msg | translate:currentNetwork.coin}}</li>
+						</ul>
+				</div>
+            	<table class="table-hover HistoryTable">
+            		<thead>
+            			<tr class="HistoryTable-header">
+            				<th translate="date">Date</th>
+	            			<th translate="account_id">Account ID</th>
+	            			<th translate="amount">Amount</th>
+	            			<th translate="memo">Memo</th>
+	            			<th translate="operation">Operation</th>
+	            		</tr>
+            		</thead>
+            		<tbody>
+            			<tr class="HistoryTable-row" ng-repeat-start="tx in payments">
+            				<td colspan=2>{{tx.date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            				<td ng-class="{true: 'amount', false: 'amount error'}[tx.success]" rowspan=2>
+            				    <span class="glyphicon glyphicon-remove" ng-hide="tx.success"></span>
+                                <span class="debit" ng-if="!tx.isInbound"><span class="bold">-</span>{{tx.amount}}</span>
+                                <span class="credit" ng-if="tx.isInbound"><span class="bold">+</span>{{tx.amount}}</span>
+                                <strong>{{tx.asset.code}}</strong>
+                            </td>
+            				<td colspan=2>
+            				    <a href="https://stellarchain.io/tx/{{tx.hash}}" target="_blank">{{tx.hash}}</a>
+            				</td>
+            			</tr>
+            			<tr class="HistoryTable-row" style="border-top:none;" ng-repeat-end>
+                            <td colspan=2 class="address"><span ng-hide="tx.nick">{{tx.counterparty}}</span><span ng-show="tx.nick" title="{{tx.counterparty}}">{{tx.nick}}</span></td>
+                            <td><span class="timestamp" ng-show="tx.memo_type && tx.memo_type!='none'">memo-{{tx.memo_type}}:</span> {{tx.memo}}</td>
+                            <td style="text-align: center;">{{tx.type}}</td>
+            			</tr>
+            		</tbody>
+            	</table>
+        	</div>
+        	<div class="txfoot">
+				<div translate="loading" ng-show="loading">Loading...</div>
+				<a href="" ng-click="load_more()" translate="load_more" ng-show="next && !loading">Load more</a>
+				<div translate="no_more" ng-show="!next && !loading">No more transactions left</div>
+			</div>
+		</div>
+	</div>
+	</group>
+</section>

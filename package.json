@@ -1,0 +1,49 @@
+{
+  "name": "FoxletStellar",
+  "version": "5.0.0",
+  "description": "Foxlet destktop client for Stellar",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "build --tasks win-x86,win-x64,linux-x86,linux-x64,mac-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
+    "mac": "build --tasks mac-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
+    "win": "build --tasks win-x86,win-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
+    "linux": "build --tasks linux-x86,linux-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
+    "start": "run --x64 --mirror https://npm.taobao.org/mirrors/nwjs/ ."
+  },
+  "author": "ripplefox",
+  "license": "ISC",
+  "devDependencies": {
+    "nwjs-builder-phoenix": "^1.15.0"
+  },
+  "dependencies": {
+    "angular": "^1.7.9",
+    "angular-chart.js": "^1.1.1",
+    "angular-qrcode": "^7.2.0",
+    "angular-route": "^1.7.9",
+    "angular-translate": "^2.18.2",
+    "bootstrap": "^3.4.1",
+    "chart.js": "^2.7.2",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.5.0",
+    "qrcode-generator": "^1.4.4",
+    "sjcl": "^1.0.8",
+    "stellar-sdk": "^5.0.1",
+    "underscore": "^1.9.2"
+  },
+  "build": {
+    "nwVersion": "0.45.2",
+    "win": {
+      "productName": "FoxletStellar",
+      "companyName": "RippleFox",
+      "icon": "./img/rocket.icns"
+    },
+    "mac": {
+      "displayName": "StellarManager",
+      "icon": "./img/rocket.ico"
+    }
+  },
+  "window": {
+    "icon": "img/rocket.png"
+  }
+}
