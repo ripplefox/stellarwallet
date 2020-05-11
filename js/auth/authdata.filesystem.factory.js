@@ -56,9 +56,10 @@ myApp.factory('AuthDataFilesystem', ['$window', 'AuthData', function ($window, A
     // _contacts
     // _created
     // _secrets
+    // _mnemonic
 
     constructor(data){
-      super(data.address, data.secrets, data.contacts);
+      super(data.address, data.secrets, data.contacts, data.mnemonic);
       this._password = data.password;
       this._path = data.path;
       this._created = data.created;
@@ -70,6 +71,7 @@ myApp.factory('AuthDataFilesystem', ['$window', 'AuthData', function ($window, A
         address: opts.address,
         secrets: opts.secrets,
         password: opts.password,
+        mnemonic: opts.mnemonic,
         path: opts.path,
 
         contacts: [],
@@ -159,6 +161,7 @@ myApp.factory('AuthDataFilesystem', ['$window', 'AuthData', function ($window, A
         address: decrypted.account_id,
         secrets: decrypted.masterkey,
         contacts: decrypted.contacts,
+        mnemonic: decrypted.mnemonic,
         created: decrypted.created,
         password,
         path,
@@ -178,6 +181,7 @@ myApp.factory('AuthDataFilesystem', ['$window', 'AuthData', function ($window, A
         contacts: cleanContacts,
         created: data.created,
         masterkey: data.secrets[0],
+        mnemonic: data.mnemonic
       })
       const blob = btoa(sjcl.encrypt(`${password.length}|${password}`, plaintext_v1, {
           ks: CRYPT_CONFIG.ks,
@@ -188,12 +192,13 @@ myApp.factory('AuthDataFilesystem', ['$window', 'AuthData', function ($window, A
 
     static _decrypt(password, blob) {
       const plaintext_v1 = sjcl.decrypt(`${password.length}|${password}`, atob(blob));
-      const object = JSON.parse(plaintext_v1);
+      const object = JSON.parse(plaintext_v1); // {"account_id":"address","contacts":[],"masterkey":"secret", "mnemonic":"12words"}
       return {
         account_id: object.account_id,
         contacts: object.contacts,
         created: object.created,
         masterkey: [object.masterkey],
+        mnemonic: object.mnemonic
       }
     }
 

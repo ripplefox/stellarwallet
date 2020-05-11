@@ -124,6 +124,15 @@ myApp.factory('AuthenticationFactory', ['$rootScope', '$window', 'AuthData', 'Au
       return _data ? _data.secrets : undefined;
     }
 
+    get mnemonic() {
+      if (_data && _data.mnemonic) {
+        console.warn(`Your mnemonic was revealed!`)
+        return _data.mnemonic;
+      } else {
+        return "";
+      }
+    }
+    
     teThresholds(te) {
       // TODO #1: parse "te" to get list of source accounts.
       // TODO #2: fetch horizon to lookup actual signers for them.
