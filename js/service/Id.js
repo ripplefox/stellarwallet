@@ -61,7 +61,7 @@ myApp.factory('Id', function($window) {
       }
     },
     fromSecret : function(secret) {
-      var keypair = StellarSdk.Keypair.fromSecret(value);
+      var keypair = StellarSdk.Keypair.fromSecret(secret);
       return {address:  keypair.publicKey(), secret: secret};
     },
     generateFilename : function() {

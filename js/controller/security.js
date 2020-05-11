@@ -1,7 +1,7 @@
 /* global b64DecodeUnicode, myApp */
 
-myApp.controller("SecurityCtrl", ['$scope', '$rootScope', 'AuthenticationFactory', 'StellarApi',
-  function($scope, $rootScope, AuthenticationFactory, StellarApi) {
+myApp.controller("SecurityCtrl", ['$scope', '$rootScope', 'AuthenticationFactory', 'StellarApi', '$translate', 'Id',
+  function($scope, $rootScope, AuthenticationFactory, StellarApi, $translate, Id) {
     $scope.mode = 'security';
     $scope.isMode = function(mode) {
       return $scope.mode === mode;
@@ -17,6 +17,12 @@ myApp.controller("SecurityCtrl", ['$scope', '$rootScope', 'AuthenticationFactory
       $scope.showSecret = flag;
       $scope.keyOpen = AuthenticationFactory.secrets[0];  // TODO: keep secret only in Auth.
       $scope.keyQRCode = $scope.keyOpen;
+      
+      $scope.mnemonic = AuthenticationFactory.mnemonic;
+      $scope.lang = $translate.use();
+      if (['cn', 'jp'].indexOf($scope.lang) >= 0) {
+        $scope.mnemonic_lang = Id.getMnemonicLang($scope.mnemonic, $scope.lang);
+      }
     };
 
 
