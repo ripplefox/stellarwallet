@@ -258,10 +258,10 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
       $scope[type + '_fail'] = "";
       var option = {
         type : type,
-        currency : $scope.base_code,
-        issuer   : $scope.base_issuer,
-        base        : $scope.counter_code,
-        base_issuer : $scope.counter_issuer
+        code   : $scope.base_code,
+        issuer : $scope.base_issuer,
+        counter        : $scope.counter_code,
+        counter_issuer : $scope.counter_issuer
       };
       if (type == 'buy') {
         option.amount = $scope.buy_amount;

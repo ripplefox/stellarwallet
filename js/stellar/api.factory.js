@@ -162,17 +162,26 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         $rootScope.$broadcast("balanceChange");
       },
 
-      _offer(selling, buying, amount, price, callback) {
+      _offer(type, selling, buying, amount, price, callback) {
         amount = round(amount, 7);
-        console.debug('Sell', amount, selling.code, 'for', buying.code, '@', price, _basefee);
         _server.loadAccount(this.address).then((account) => {
           this._updateSeq(account);
-          const op = StellarSdk.Operation.manageOffer({
-            selling: selling,
-            buying: buying,
-            amount: amount.toString(),
-            price : price.toString()
-          });
+          var op;
+          if (type == 'buy') {
+            op = StellarSdk.Operation.manageBuyOffer({
+              selling: selling,
+              buying: buying,
+              buyAmount: amount.toString(),
+              price : price.toString()
+            });
+          } else {
+            op = StellarSdk.Operation.manageSellOffer({
+              selling: selling,
+              buying: buying,
+              amount: amount.toString(),
+              price : price.toString()
+            });
+          }
           const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
           return AuthenticationFactory.sign(te);
         }).then((te) => {
@@ -495,7 +504,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
 
       queryOffer(callback) {
         console.debug('offers', this.address);
-        _server.offers('accounts', this.address).limit(200).call().then((data) => {
+        _server.offers().forAccount(this.address).limit(200).call().then((data) => {
           console.log('offers', data.records);
           callback(null, data.records);
         }).catch((err) => {
@@ -505,22 +514,17 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
       },
 
       offer(option, callback) {
-        console.debug('%s %s %s use %s@ %s', option.type, option.amount, option.currency, option.base, option.price);
+        console.debug('%s %s %s use %s@ %s', option.type, option.amount, option.code, option.counter, option.price);
         let buying, selling;
-        let selling_amount, selling_price;
 
         if (option.type == 'buy') {
-          selling = getAsset(option.base, option.base_issuer);
-          buying = getAsset(option.currency, option.issuer);
-          selling_amount = option.amount * option.price;
-          selling_price = 1 / option.price;
+          selling = getAsset(option.counter, option.counter_issuer);
+          buying  = getAsset(option.code, option.issuer);
         } else {
-          selling = getAsset(option.currency, option.issuer);
-          buying = getAsset(option.base, option.base_issuer);
-          selling_amount = option.amount;
-          selling_price = option.price;
+          selling = getAsset(option.code, option.issuer);
+          buying  = getAsset(option.counter, option.counter_issuer);
         }
-        this._offer(selling, buying, selling_amount, selling_price, callback);
+        this._offer(option.type, selling, buying, option.amount, option.price, callback);
       },
 
       cancel(offer, callback) {
