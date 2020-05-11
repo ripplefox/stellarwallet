@@ -48,7 +48,7 @@ myApp.factory('Id', function($window) {
       var kp;
       if (mnemonic) {
         var seedHex = bip39.mnemonicToSeedSync(mnemonic).toString("hex");
-        var hddata = derivePath("m/44'/144'/0'", seedHex);
+        var hddata = derivePath("m/44'/148'/0'", seedHex);
         const keypair = StellarSdk.Keypair.fromRawEd25519Seed(hddata.key);
         const address = keypair.publicKey();
         const secret = keypair.secret();
