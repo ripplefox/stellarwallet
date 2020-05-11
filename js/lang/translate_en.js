@@ -123,6 +123,9 @@ var translate_en = {
   batch       : 'Batch',
   source_account : 'Source Account',
   inflation_op   : 'Inflation',
+  accountMerge : 'Merge',
+  manageBuyOffer : 'Buy',
+  manageSellOffer : 'Sell',
 
   choose : 'Choose',
   example : 'example',

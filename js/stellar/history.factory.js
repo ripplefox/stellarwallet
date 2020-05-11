@@ -119,6 +119,7 @@ myApp.factory('StellarHistory', ['$rootScope', 'SettingFactory', function($rootS
           nextPage = page.next();
           nextPage.address = address;
         }
+        console.log(transactions);
         callback(null, transactions, nextPage);
       }).catch((err) => {
         console.error('Transactions Fail !', err);
@@ -155,10 +156,18 @@ myApp.factory('StellarHistory', ['$rootScope', 'SettingFactory', function($rootS
           op.amount = op.startingBalance;
           break;
         case 'pathPayment':
+        case 'pathPaymentStrictSend':
+        case 'pathPaymentStrictReceive':
           op.isInbound = op.destination == address;
           op.isConvert = tx.source == op.destination;
           op.counterparty = op.isInbound ? tx.source : op.destination;
           break;
+        case 'accountMerge' : {
+          op.isInbound = op.destination == address;
+          op.counterparty = op.isInbound ? tx.source : op.destination;
+          op.asset = {code: SettingFactory.getCoin()};
+          break;
+        }
         default:
 
         }

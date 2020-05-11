@@ -1,7 +1,7 @@
 <div class="feed-item">
 	<div class="feed-item-icon">
-		<div class="circle circle-blue" translate="offer" ng-show="{{item.tx.operations[0].amount}}"></div>
-		<div class="circle circle-blue" translate="offer_cancel" ng-hide="{{item.tx.operations[0].amount}}"></div>
+		<div class="circle circle-blue" ng-show="{{item.tx.operations[0].amount}}">{{item.type | translate}}</div>
+		<div class="circle circle-blue" ng-hide="{{item.tx.operations[0].amount}}">{{'offer_cancel' | translate}}</div>
 	</div>
 	<div class="feed-item-comment">
 		<span ng-if="item.source_account !== address" class="timestamp nowrap">{{'source_account' | translate}}: {{item.source_account}}</span>

@@ -4,6 +4,7 @@
 			<span ng-if="item.tx.operations[0].type == 'payment' && !item.tx.operations[0].isInbound" translate="sent"></span>
 			<span ng-if="item.tx.operations[0].type == 'payment' && item.tx.operations[0].isInbound" translate="received"></span>
 			<span ng-if="item.tx.operations[0].type == 'createAccount'" translate="created"></span>
+			<span ng-if="item.tx.operations[0].type == 'accountMerge'" translate="accountMerge"></span>
 		</div>
 	</div>
 	<div class="feed-item-comment">

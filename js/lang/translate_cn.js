@@ -123,6 +123,9 @@ var translate_cn = {
   batch       : '批量',
   source_account : '源账号',
   inflation_op   : '通胀',
+  accountMerge : '删号',
+  manageBuyOffer : '买入',
+  manageSellOffer : '卖出',
 
   choose : '选择',
   example : '示例',
