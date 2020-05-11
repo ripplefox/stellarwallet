@@ -543,7 +543,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         console.debug('Cancel Offer', offer_id);
         _server.loadAccount(this.address).then((account) => {
           this._updateSeq(account);
-          const op = StellarSdk.Operation.manageOffer({
+          const op = StellarSdk.Operation.manageSellOffer({
             selling: selling,
             buying: buying,
             amount: "0",
