@@ -105,207 +105,201 @@
 		</div>
 		
 		
-		<div class="island island--pb" ng-show="!show_pair">
-			<div class="OfferMakers island__sub">
-				<div class="OfferMakers_maker island__sub__division">
-					<div>
-						<h3 class="island__sub__division__title island__sub__division__title--left">{{'buy' | translate}} {{base_code}}</h3>
-						<table class="OfferMaker__table">
-							<tbody>
-								<tr class="OfferMaker__table__row">
-									<td class="OfferMaker__table__label" translate="order_amount">Amount</td>
-									<td class="OfferMaker__table__input">
-										<input type="text" class="OfferMaker__table__input__input" ng-model="buy_amount" ng-change="calculate('buy_amount')">
-									</td>
-								</tr>
-								<tr class="OfferMaker__table__row">
-									<td class="OfferMaker__table__label" translate="price_of_each">Price of Each</td>
-									<td class="OfferMaker__table__input">
-										<input type="text" class="OfferMaker__table__input__input" ng-model="buy_price" ng-change="calculate('buy_price')">
-									</td>
-								</tr>
-								<tr class="OfferMaker__table__row">
-									<td class="OfferMaker__table__label">{{'order_value' | translate}} ({{counter_code}})</td>
-									<td class="OfferMaker__table__input">
-										<input type="text" class="OfferMaker__table__input__input" ng-model="buy_volume" ng-change="calculate('buy_volume')">
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<div class="OfferMaker__overview">
-							<div class="OfferMaker__youHave">
+		<div class="offers_pad row" ng-show="!show_pair">
+			<div class="bidoffer col-xs-12 col-sm-6">
+				<div class="listings">
+						<h3 class="manager_title">{{'buy' | translate}} {{base_code}}</h3>
+						<div class="row input-field">
+							<div class="col-xs-4 input-lable" translate="order_amount">Amount</div>
+							<div class="col-xs-8">
+								<div class="input-group">
+									<input type="text" class="form-control" ng-model="buy_amount" ng-change="calculate('buy_amount')">
+									<div class="input-group-addon addon-font">{{base_code}}</div>
+								</div>
+							</div>
+					</div>
+					<div class="row input-field">
+							<div class="col-xs-4 input-lable" translate="price_of_each">price_of_each</div>
+							<div class="col-xs-8">
+								<div class="input-group">
+									<input type="text" class="form-control" ng-model="buy_price" ng-change="calculate('buy_price')">
+									<div class="input-group-addon addon-font">{{counter_code}}</div>
+								</div>
+							</div>
+					</div>
+					<div class="row input-field">
+							<div class="col-xs-4 input-lable">{{'order_value' | translate}}</div>
+							<div class="col-xs-8">
+								<div class="input-group">
+									<input type="text" class="form-control" ng-model="buy_volume" ng-change="calculate('buy_volume')">
+									<div class="input-group-addon addon-font">{{counter_code}}</div>
+								</div>
+							</div>
+					</div>
+					<div class="row submit-field">
+							<div class="overview">
 								{{'you_have' | translate}} {{getBalance(counter_code, counter_issuer)}} {{counter_code}}
 							</div>
-							<div class="s-alert s-alert--success OfferMaker__message" ng-show="buy_ok" translate="offer_success">Offer successfully created</div>
-							<div class="s-alert s-alert--error OfferMaker__message" ng-show="buy_fail">{{buy_fail}}</div>
-							<button class="s-button btn btn-success" ng-click="offer('buy')" ng-disabled="buying">{{'buy' | translate}} {{base_code}}</button>
-						</div>
+							<div class="s-alert s-alert--success" ng-show="buy_ok" translate="offer_success">Offer successfully created</div>
+							<div class="s-alert s-alert--error" ng-show="buy_fail">{{buy_fail}}</div>
+							<button class="btn btn-success" ng-click="offer('buy')" ng-disabled="buying">{{'buy' | translate}} {{base_code}}</button>
 					</div>
 				</div>
-				<div class="OfferMakers_maker island__sub__division">
-					<div>
-						<h3 class="island__sub__division__title island__sub__division__title--left">{{'sell' | translate}} {{base_code}}</h3>
-						<table class="OfferMaker__table">
-							<tbody>
-								<tr class="OfferMaker__table__row">
-									<td class="OfferMaker__table__label" translate="order_amount" translate="order_amount">Amount</td>
-									<td class="OfferMaker__table__input">
-										<input type="text" class="OfferMaker__table__input__input" ng-model="sell_amount" ng-change="calculate('sell_amount')">
-									</td>
-								</tr>
-								<tr class="OfferMaker__table__row">
-									<td class="OfferMaker__table__label" translate="price_of_each">Price of Each</td>
-									<td class="OfferMaker__table__input">
-										<input type="text" class="OfferMaker__table__input__input" ng-model="sell_price" ng-change="calculate('sell_price')">
-									</td>
-								</tr>
-								<tr class="OfferMaker__table__row">
-									<td class="OfferMaker__table__label">{{'order_value' | translate}} ({{counter_code}})</td>
-									<td class="OfferMaker__table__input">
-										<input type="text" class="OfferMaker__table__input__input" ng-model="sell_volume" ng-change="calculate('sell_volume')">
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<div class="OfferMaker__overview">
-							<div class="OfferMaker__youHave">
+			</div>
+			
+			<div class="askoffer col-xs-12 col-sm-6">
+				<div class="listings">
+						<h3 class="manager_title">{{'sell' | translate}} {{base_code}}</h3>
+						<div class="row input-field">
+							<div class="col-xs-4 input-lable" translate="order_amount">Amount</div>
+							<div class="col-xs-8 input-group">
+									<input type="text" class="form-control" ng-model="sell_amount" ng-change="calculate('sell_amount')">
+									<div class="input-group-addon addon-font">{{base_code}}</div>
+							</div>
+					</div>
+					<div class="row input-field">
+							<div class="col-xs-4 input-lable" translate="price_of_each">price_of_each</div>
+							<div class="col-xs-8 input-group">
+								<input type="text" class="form-control" ng-model="sell_price" ng-change="calculate('sell_price')">
+								<div class="input-group-addon addon-font">{{counter_code}}</div>
+							</div>
+					</div>
+					<div class="row input-field">
+							<div class="col-xs-4 input-lable">{{'order_value' | translate}}</div>
+							<div class="col-xs-8 input-group">
+								<input type="text" class="form-control" ng-model="sell_volume" ng-change="calculate('sell_volume')">
+								<div class="input-group-addon addon-font">{{counter_code}}</div>
+							</div>
+					</div>
+					<div class="row submit-field">
+							<div class="overview">
 								{{'you_have' | translate}} {{getBalance(base_code, base_issuer)}} {{base_code}}
 							</div>
-							<div class="s-alert s-alert--success OfferMaker__message" ng-show="sell_ok" translate="offer_success">Offer successfully created</div>
-							<div class="s-alert s-alert--error OfferMaker__message" ng-show="sell_fail">{{sell_fail}}</div>
-							<button class="s-button btn btn-success" ng-click="offer('sell')" ng-disabled="selling">{{'sell' | translate}} {{base_code}}</button>
-						</div>
-
+							<div class="s-alert s-alert--success" ng-show="sell_ok" translate="offer_success">Offer successfully created</div>
+							<div class="s-alert s-alert--error" ng-show="sell_fail">{{sell_fail}}</div>
+							<button class="btn btn-success" ng-click="offer('sell')" ng-disabled="selling">{{'sell' | translate}} {{base_code}}</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="island island--pb" ng-show="!show_pair">
-			<div class="island__header">{{'orderbook' | translate}}
+		
+		<div class="orderbook_pad row" ng-show="!show_pair">
+			<div class="orderbook_header">{{'orderbook' | translate}}
 				<a class="btn btn-success btn-sm" ng-click="refreshBook()" ng-disabled="refreshingBook">
 					<span class="glyphicon glyphicon-refresh"></span> {{'refresh' | translate}}</a>
 			</div>
-			<div class="OfferTables island__sub">
-				<div class="island__sub__division">
-					<h3 class="island__sub__division__title" translate="buy_offers">Buy offers</h3>
-					<div class="OfferTable">
-						<div class="OfferTable__header">
-							<div class="OfferTable__header__item" translate="price">Price</div>
-							<div class="OfferTable__header__item">{{base_code}}</div>
-							<div class="OfferTable__header__item">{{counter_code}}</div>
-							<div class="OfferTable__header__item" translate="depth">Depth</div>
+			<div class="orderbook">
+				<div class="bookboard col-xs-12">
+					<div class="bids col-xs-12 col-sm-6">
+						<h3 class="title" translate="buy_offers">Buy offers</h3>
+						<div class="row head" ng-show="book.bids.length">
+							<div class="col-xs-4">{{'sum' | translate}} <div class="currency">{{base_code}}</div></div>
+							<div class="col-xs-4">{{'order_amount' | translate}} <div class="currency">{{base_code}}</div></div>
+							<div class="col-xs-4">{{'price' | translate}}<div class="currency">{{counter_code}}</div></div>
 						</div>
-						
-						<div class="OfferTable__row" ng-repeat="item in book.bids"
-							style="background: linear-gradient(to left, #dcf6de {{item.pct}}%, {{$index%2==1?'#f4f4f4':'#ffffff'}} {{item.pct}}%);"
-							ng-click="pickPrice('bid', item.price)">
-							<div class="OfferTable__row__item">{{item.price | number: price_precise}}</div>
-							<div class="OfferTable__row__item">{{item.amount | number: precise}}</div>
-							<div class="OfferTable__row__item">{{item.volumn | number: value_precise}}</div>
-							<div class="OfferTable__row__item">{{item.depth | number: value_precise}}</div>
+						<div class="row" ng-repeat="item in book.bids" ng-click="pickPrice('bid', item.price)">
+							<div class="col-xs-4">{{item.size | number: precise}}</div>
+							<div class="col-xs-4">{{item.amount | number: precise}}</div>
+							<div class="col-xs-4">{{item.price | number: price_precise}}</div>
 						</div>
+						<div ng-show="!book.bids.length" class="message" translate="no_bids">There are currently no bids for this pair.</div>
 					</div>
-				</div>
-				<div class="island__sub__division">
-					<h3 class="island__sub__division__title" translate="sell_offers">Sell offers</h3>
-					<div class="OfferTable">
-						<div class="OfferTable__header">
-							<div class="OfferTable__header__item" translate="price">Price</div>
-							<div class="OfferTable__header__item">{{base_code}}</div>
-							<div class="OfferTable__header__item">{{counter_code}}</div>
-							<div class="OfferTable__header__item" translate="depth">Depth</div>
+					
+					<div class="asks col-xs-12 col-sm-6">
+						<h3 class="title" translate="sell_offers">Sell offers</h3>
+						<div class="row head" ng-show="book.asks.length">
+							<div class="col-xs-4">{{'price' | translate}}<div class="currency">{{counter_code}}</div></div>
+							<div class="col-xs-4">{{'order_amount' | translate}} <div class="currency">{{base_code}}</div></div>
+							<div class="col-xs-4">{{'sum' | translate}} <div class="currency">{{base_code}}</div></div>
 						</div>
-						<div class="OfferTable__row" ng-repeat="item in book.asks"
-							style="background: linear-gradient(to right, #fed6d8 {{item.pct}}%, {{$index%2==1?'#f4f4f4':'#ffffff'}} {{item.pct}}%);"
-							ng-click="pickPrice('ask', item.price)">
-							<div class="OfferTable__row__item">{{item.price | number: price_precise}}</div>
-							<div class="OfferTable__row__item">{{item.amount | number: precise}}</div>
-							<div class="OfferTable__row__item">{{item.volumn | number: value_precise}}</div>
-							<div class="OfferTable__row__item">{{item.depth | number: value_precise}}</div>
+						<div class="row" ng-repeat="item in book.asks" ng-click="pickPrice('ask', item.price)">
+							<div class="col-xs-4">{{item.price | number: price_precise}}</div>
+							<div class="col-xs-4">{{item.amount | number: precise}}</div>
+							<div class="col-xs-4">{{item.size | number: precise}}</div>
 						</div>
+						<div ng-show="!book.asks.length" class="message" translate="no_asks">There are currently no asks for this pair.</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 
-		<div class="island" ng-show="!show_pair">
-			<div class="island__header">{{'manager_offer' | translate}}
+		<div class="listings_pad row" ng-show="!show_pair">
+			<div class="listings_header">{{'manager_offer' | translate}}
 				<a class="btn btn-success btn-sm" ng-click="refreshOffer()" ng-disabled="refreshingOffer">
 					<span class="glyphicon glyphicon-refresh"></span> {{'refresh' | translate}}
 				</a>
-				
+				<a class="danger" ng-show="cancel_error">{{cancel_error}}</a>
 				<div style="float:right"><input type="checkbox" ng-model="showAdvanced">{{ 'advanced' | translate}}</div>
 			</div>
-			<div class="island--pb">
-				<div class="ManageOffers island__sub" ng-hide="showAdvanced">
-					<div class=" island__sub__division">
-						<h3 class="island__sub__division__title" translate="your_buy_offers">Your buy offers</h3>
-						<table class="ManageOffers__table"><tbody>
-							<tr class="ManageOffers__table__header">
-								<td class="ManageOffers__table__header__item" translate="price">Price</td>
-								<td class="ManageOffers__table__header__item">{{base_code}}</td>
-								<td class="ManageOffers__table__header__item">{{counter_code}}</td>
-								<td></td>
-							</tr>
-							<tr class="ManageOffers__table__row" ng-repeat="(id, item) in offers.bid">
-								<td class="ManageOffers__table__row__item">{{item.price | number: price_precise}}</td>
-								<td class="ManageOffers__table__row__item">{{item.amount | number: precise}}</td>
-								<td class="ManageOffers__table__row__item">{{item.volume | number: precise}}</td>
-								<td class="ManageOffers__table__row__item">
-									<a href="javascript:" ng-click="cancel(item.id, 'bid')" translate="offer_cancel" ng-hide="item.canceling">Cancel</a>
-									<span ng-show="item.canceling" translate="offer_canceling">Canceling...</span>
-								</td>
-							</tr>
-						</tbody></table>
-					</div>
-					<div class="island__sub__division">
-						<h3 class="island__sub__division__title" translate="your_sell_offers">Your sell offers</h3>
-						<table class="ManageOffers__table"><tbody>
-							<tr class="ManageOffers__table__header">
-								<td class="ManageOffers__table__header__item" translate="price">Price</td>
-								<td class="ManageOffers__table__header__item">{{base_code}}</td>
-								<td class="ManageOffers__table__header__item">{{counter_code}}</td>
-								<td></td>
-							</tr>
-							<tr class="ManageOffers__table__row" ng-repeat="(id, item) in offers.ask">
-								<td class="ManageOffers__table__row__item">{{item.price | number: price_precise}}</td>
-								<td class="ManageOffers__table__row__item">{{item.amount | number: precise}}</td>
-								<td class="ManageOffers__table__row__item">{{item.volume | number: precise}}</td>
-								<td class="ManageOffers__table__row__item">
-									<a href="javascript:" ng-click="cancel(item.id, 'ask')" translate="offer_cancel" ng-hide="item.canceling">Cancel</a>
-									<span ng-show="item.canceling" translate="offer_canceling">Canceling...</span>
-								</td>
-							</tr>
-						</tbody></table>
-					</div>
+			
+			<div class="bidoffer col-xs-12 col-sm-6" ng-hide="showAdvanced">
+					<div class="listings"><div class="my">
+						<h3 class="offer_title" translate="your_buy_offers">Your buy offers</h3>
+						<div class="row head" ng-show="objKeyLength(offers.bid)">
+							<div class="col-xs-3 right">{{'price' | translate}}</div>
+							<div class="col-xs-3 right">{{'order_amount' | translate}}({{base_code}})</div>
+							<div class="col-xs-4 right">{{'total' | translate}}({{counter_code}})</div>
+							<div class="col-xs-2 right"> </div>
+						</div>
+						<div class="row" ng-repeat="(id, item) in offers.bid" ng-class="{cancelling: item.canceling}">
+							<div class="col-xs-3 right">{{item.price | number: price_precise}}</div>
+							<div class="col-xs-3 right">{{item.amount | number: precise}}</div>
+							<div class="col-xs-4 right">{{item.volume | number: precise}}</div>
+							<div class="col-xs-2 action">
+								<i class="fa fa-spinner fa-pulse" ng-show="item.canceling"></i>
+								<a href="javascript:" ng-click="cancel(item.id, 'all')" class="danger">{{'offer_cancel' | translate}}</a>
+							</div>
+				    </div>
+				    <div ng-show="!objKeyLength(offers.bid)" class="message" translate="no_offers">You haven't placed any orders.</div>
+					</div></div>
 				</div>
 				
-				<div class="ManageOffers island__sub" ng-show="showAdvanced">
-						<table class="ManageOffers__table"><tbody>
-							<tr class="ManageOffers__table__header">
-								<td class="ManageOffers__table__header__item" translate="price">Price</td>
-								<td class="ManageOffers__table__header__item" translate="amount">Amount</td>
-								<td class="ManageOffers__table__header__left" translate="buying">Buying</td>
-								<td class="ManageOffers__table__header__left" translate="selling">Selling</td>
-								<td></td>
-							</tr>
-							<tr class="ManageOffers__table__row" ng-repeat="(id, item) in offers.all">
-								<td class="ManageOffers__table__row__item">{{item.price | number: 4}}</td>
-								<td class="ManageOffers__table__row__item">{{item.amount | number: 4}}</td>
-								<td class="ManageOffers__table__row__left">{{item.buy_code}}<span class="issuer" ng-show="item.buy_issuer">({{item.buy_issuer | shortaddress}})</span></td>
-								<td class="ManageOffers__table__row__left">{{item.sell_code}}<span class="issuer" ng-show="item.sell_issuer">({{item.sell_issuer | shortaddress}})</span></td>
-								<td class="ManageOffers__table__row__item">
-									<a href="javascript:" ng-click="cancel(item.id, 'all')" translate="offer_cancel" ng-hide="item.canceling">Cancel</a>
-									<span ng-show="item.canceling" translate="offer_canceling">Canceling...</span>
-								</td>
-							</tr>
-						</tbody></table>
+				<div class="askoffer col-xs-12 col-sm-6" ng-hide="showAdvanced">
+					<div class="listings"><div class="my">
+						<h3 class="offer_title" translate="your_sell_offers">Your sell offers</h3>
+						<div class="row head" ng-show="objKeyLength(offers.ask)">
+							<div class="col-xs-3 right">{{'price' | translate}}</div>
+							<div class="col-xs-3 right">{{'order_amount' | translate}}({{base_code}})</div>
+							<div class="col-xs-4 right">{{'total' | translate}}({{counter_code}})</div>
+							<div class="col-xs-2 right"> </div>
+						</div>
+						<div class="row" ng-repeat="(id, item) in offers.ask" ng-class="{cancelling: item.canceling}">
+							<div class="col-xs-3 right">{{item.price | number: price_precise}}</div>
+							<div class="col-xs-3 right">{{item.amount | number: precise}}</div>
+							<div class="col-xs-4 right">{{item.volume | number: precise}}</div>
+							<div class="col-xs-2 action">
+								<i class="fa fa-spinner fa-pulse" ng-show="item.canceling"></i>
+								<a href="javascript:" ng-click="cancel(item.id, 'all')" class="danger">{{'offer_cancel' | translate}}</a>
+							</div>
+				    </div>
+				    <div ng-show="!objKeyLength(offers.ask)" class="message" translate="no_offers">You haven't placed any orders.</div>
+					</div></div>
 				</div>
 				
-			</div>
-			<div class="s-alert s-alert--error OfferMaker__message" ng-show="cancel_error">{{cancel_error}}</div>
+				<div class="listings" ng-show="showAdvanced">
+				  <div class="my">
+						<div class="row head" ng-show="objKeyLength(offers.all)">
+							<div class="col-sm-1 right" translate="price">Price</div>
+							<div class="col-sm-3 right" translate="amount">Amount</div>
+							<div class="col-sm-3 right" translate="buying">Buying</div>
+							<div class="col-sm-3 right" translate="selling">Selling</div>
+							<div class="col-sm-2"> </div>
+						</div>
+						<div class="row" ng-repeat="(id, item) in offers.all" ng-class="{cancelling: item.canceling}">
+							<div class="col-sm-1 right">{{item.price | number: 4}}</div>
+							<div class="col-sm-3 right">{{item.amount | number: 4}}</div>
+							<div class="col-sm-3 right">{{item.buy_code}}<span class="issuer" ng-show="item.buy_issuer">({{item.buy_issuer | shortaddress}})</span></div>
+							<div class="col-sm-3 right">{{item.sell_code}}<span class="issuer" ng-show="item.sell_issuer">({{item.sell_issuer | shortaddress}})</span></div>
+							<div class="col-sm-2 action">
+								<i class="fa fa-spinner fa-pulse" ng-show="item.canceling"></i>
+								<a href="javascript:" ng-click="cancel(item.id, 'all')" class="danger">{{'offer_cancel' | translate}}</a>
+							</div>
+						</div>
+						<div ng-hide="objKeyLength(offers.all)" class="message" translate="no_offers">You haven't placed any orders.</div>
+					</div>
+				</div>
+			
 		</div>
 
 	</div>

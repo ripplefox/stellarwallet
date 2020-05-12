@@ -133,17 +133,23 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
           this.bids = this.bids.slice(0, displayNo);
         }
         var depth = 0;
+        var size = 0;
         for (var i=0; i<this.asks.length; i++) {
           this.asks[i].volumn = this.asks[i].amount * this.asks[i].price;
           depth = depth + this.asks[i].volumn;
+          size = size + parseFloat(this.asks[i].amount);
           this.asks[i].depth = depth;
+          this.asks[i].size = size;
         }
         depth = 0;
+        size = 0;
         for (let i=0; i<this.bids.length; i++) {
           this.bids[i].volumn = this.bids[i].amount;
           this.bids[i].amount = this.bids[i].volumn / this.bids[i].price;
           depth = depth + parseFloat(this.bids[i].volumn);
+          size = size + parseFloat(this.bids[i].amount);
           this.bids[i].depth = depth;
+          this.bids[i].size = size;
         }
         var max_depth = 0;
         if (this.asks.length>0) {

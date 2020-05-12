@@ -40,6 +40,18 @@
 	font-size: 21px;
 }
 
+.island .header {
+	background-color: #f4f4f5;
+	margin: 0;
+	padding: 11px 18px 9px 18px;
+	font-size: 21px;
+}
+
+.island .success {
+  font-size: 13px;
+  color: green;
+}
+
 .island__separator {
 	border-top: 1px solid #dedfe0;
 	width: 100%;
@@ -136,16 +148,38 @@
     flex: 0 0 25%;
 }
 
+.s-alert--success {
+    border: 1px solid #383;
+    background: #d6e7d6;
+}
+
+.s-alert--info {
+    border: 1px solid #69f;
+    background: #e8f0ff;
+}
+
+.s-alert--error {
+	border: 1px solid #d12;
+	background: #f8cfd3
+}
+
 .s-alert--alert {
     border: 1px solid #d12;
     background: #f8cfd3;
 }
+
+.s-alert--warning {
+	border: 1px solid #d12;
+	background: #FCF8E3;
+}
+
 .s-alert {
     display: block;
-    padding: .5em 1em;
-    margin-bottom: 1em;
+    padding: 8px 16px;
+    margin-bottom: 16px;
     border-radius: 3px;
 }
+
 .s-alert ul {
 	margin-bottom: 0;
 	font-size: 18px;

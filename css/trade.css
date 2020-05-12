@@ -51,38 +51,6 @@ a.AssetPairRow:hover .AssetPair__separator {
 	color: #929597;
 }
 
-.OfferMaker__table {
-	width: 100%;
-}
-
-.OfferMaker__table input, select, textarea {
-	color: #3a3f43;
-	padding: .35em 1em .3166em;
-}
-
-.OfferMaker__table__row {
-	height: 50px;
-}
-
-.OfferMaker__table__label {
-	min-width: 100px;
-}
-
-.OfferMaker__table__input {
-	width: auto;
-	min-width: 100px;
-}
-
-.OfferMaker__table__input__input {
-	width: 100%;
-}
-
-.OfferMaker__overview {
-	margin-top: 12px;
-	border-top: 1px solid #dedfe0;
-	padding-top: 12px;
-}
-
 .OfferTable {
 	width: 100%;
 	text-align: right;
@@ -151,130 +119,454 @@ a.AssetPairRow:hover .AssetPair__separator {
 	padding: 5px;
 	text-align: right;
 	font-family: 'Ubuntu Mono';
-}
-
-.OfferMaker__table {
-	width: 100%;
-}
-
-.OfferMaker__table__row {
-	height: 50px;
-}
-
-.OfferMaker__table__label {
-	min-width: 100px;
-}
-
-.OfferMaker__table__input {
-	width: auto;
-	min-width: 100px;
-}
-
-.OfferMaker__message {
-	font-size: 13.5px;
-}
-
-.OfferMaker__errorList {
-	margin-left: 2em;
-}
-
-.OfferMaker__youHave {
-	font-size: 13.5px;
-	margin-bottom: 0.5em;
-}
-
-.OfferMaker__table__input__input {
-	width: 100%;
-}
-
-.OfferMaker__overview {
-	margin-top: 12px;
-	border-top: 1px solid #dedfe0;
-	padding-top: 12px;
-}
-
-.ManageOffers__table {
-  width: 100%;
-  text-align: right;
-  font-size: 16px;
-}
-
-.ManageOffers__table .issuer {
-  font-size: 11px;
-  color: #b3b3b3;
-}
-
-.ManageOffers__table__header {
-	background: #f4f4f5;
-	font-weight: bold;
-	text-align: center;
-}
-
-.ManageOffers__table__header__item {
-	padding: 4px 8px 4px 2px;
-	text-align: right;
-}
-
-.ManageOffers__table__header__left {
-	padding: 4px 8px 4px 12px;
-	text-align: left;
-}
-
-.ManageOffers__table__row {
-	
-}
-
-.ManageOffers__table__row:hover {
-	background: #fdfdc8;
-}
-
-.ManageOffers__table__row__item {
-	padding: 4px 8px 4px 2px;
-	text-align: right;
-	font-family: 'Ubuntu Mono';
-}
-
-.ManageOffers__table__row__left {
-	padding: 4px 8px 4px 12px;
-	text-align: left;
-	font-family: 'Ubuntu Mono';
-}
-
-.ManageOffers__table__row__none {
-	padding: 4px 8px;
-	text-align: center;
-	font-family: 'Ubuntu Mono';
-}
-
-.s-button {
-    display: inline-block;
-    margin: 0;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.s-alert--success {
-    border: 1px solid #383;
-    background: #d6e7d6;
-}
-
-.s-alert--info {
-    border: 1px solid #69f;
-    background: #e8f0ff;
-}
-
-.s-alert--error {
-	border: 1px solid #d12;
-	background: #f8cfd3
-}
-
-.s-alert {
-    display: block;
-    padding: .5em 1em;
-    margin-bottom: 1em;
-    border-radius: 3px;
 }
 
 .lightenZeros__unemph {
 	opacity: 0.4;
+}
+
+.notice_pad {
+	margin: 0 auto;
+	padding: 15px 15px 10px 15px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+	background: #f4f4f5;
+	border: 1px solid #dedfe0;
+	border-radius: 3px;
+}
+
+.notice_pad .lead {
+	margin-bottom: 5px;
+}
+
+.contact_pad,
+.offers_pad {
+	margin: 0 auto;
+	margin-bottom: 18px;
+	padding: 15px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+	background: #fff;
+	border: 1px solid #dedfe0;
+	border-radius: 3px;
+}
+
+.offers_pad .bidoffer {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+.offers_pad .askoffer {
+	padding-left: 10px;
+	padding-right: 0;
+}
+
+.offers_pad .manager_title {
+	padding: 10px;
+  margin: 0 -15px 15px -15px;
+  font: bold 15px 'OpenSansRegular';
+  text-align: left;
+  text-transform: uppercase;
+  background: #f2f2f2;
+}
+
+.offers_pad .bidoffer .row,
+.offers_pad .askoffer .row {
+  margin: 0 0 20px;
+}
+
+.showall input {
+	vertical-align:middle; 
+	margin-top:-5px;
+}
+
+.showall span {
+	font-size: 16px;
+}
+
+.listings .input-field {
+	display: flex;
+}
+
+.listings .submit-field {
+	padding: 0 15px;
+}
+
+.listings .submit-field .overview {
+	margin-bottom: 10px;
+	border-top: 1px solid #dedfe0;
+	padding-top: 12px;
+	font-size: 14px;
+	color: #777;
+}
+
+.listings .input-lable {
+	font: 18px 'OpenSansRegular';
+  line-height:34px;
+}
+
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child > .btn,
+.input-group-btn:first-child > .dropdown-toggle,
+.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.addon-font {
+	font-family: Consolas,Monaco,monospace;
+}
+
+.input-group-addon:first-child {
+  border-right: 0;
+}
+
+.input-group .form-control:last-child,
+.input-group-addon:last-child,
+.input-group-btn:last-child > .btn,
+.input-group-btn:last-child > .dropdown-toggle,
+.input-group-btn:first-child > .btn:not(:first-child) {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.input-group-addon:last-child {
+  border-left: 0;
+}
+
+.input-group-btn {
+  position: relative;
+  white-space: nowrap;
+}
+
+.input-group-btn > .btn {
+  position: relative;
+}
+
+.input-group-btn > .btn + .btn {
+  margin-left: -4px;
+}
+
+.input-group-btn > .btn:hover,
+.input-group-btn > .btn:active {
+  z-index: 2;
+}
+
+.orderbook_pad {
+	margin: 0 auto;
+	margin-bottom: 18px;
+	padding: 0 15px;
+	padding-bottom: 15px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+	background: #fff;
+	border: 1px solid #dedfe0;
+	border-radius: 3px;
+}
+
+.orderbook_header {
+	padding: 11px 18px 9px 0;
+	font-size: 21px;
+}
+
+.orderbook .bookboard {
+	padding: 0;
+  border: 1px solid #e1e1e1;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  background-clip: padding-box;
+}
+
+.orderbook .title {
+  padding: 10px;
+  margin: 0 -15px 15px -15px;
+  font: bold 15px 'OpenSansRegular';
+  text-align: center;
+  text-transform: uppercase;
+  background: #f2f2f2;
+}
+
+.orderbook .head {
+  margin-bottom: 10px;
+  font: 18px 'OpenSansRegular';
+}
+
+.orderbook .head .currency {
+  color: #B6B6B6;
+  font: 15px 'OpenSansRegular';
+}
+
+.orderbook .my {
+  font-weight: bold;
+  color: #177716;
+}
+
+.orderbook .my .insig {
+  font-weight: normal;
+  color: #177716;
+}
+
+.orderbook .my .delete {
+  margin: 0 10px 0 0;
+  text-decoration: none;
+}
+
+@media (min-width: 767px) {
+  .orderbook .bids {
+    border-right: 3px solid #c7c7c7;
+    text-align: right;
+  }
+  .orderbook .asks {
+    border-left: 3px solid #c7c7c7;
+    text-align: right;
+  }
+}
+
+@media (max-width: 767px) {
+  .orderbook .asks {
+    padding-top: 10px;
+    border-top: 6px solid #ccc;
+  }
+}
+
+.orderbook .bids .row,
+.orderbook .asks .row {
+  padding: 5px 0;
+  text-align: right;
+}
+
+.orderbook .bids .row:nth-child(odd),
+.orderbook .asks .row:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.orderbook a {
+  color: inherit;
+}
+
+.orderbook .message {
+  text-align: center;
+  font-size: 14px;
+}
+
+.orderbook .issuer {
+  font-size: 10px;
+  color: #B6B6B6;
+}
+
+.listings_pad {
+	margin: 0 auto;
+	margin-bottom: 18px;
+	padding: 0 15px;
+	padding-bottom: 15px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+	background: #fff;
+	border: 1px solid #dedfe0;
+	border-radius: 3px;
+}
+
+.listings_pad .bidoffer {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+.listings_pad .askoffer {
+	padding-left: 10px;
+	padding-right: 0;
+}
+
+.listings_header {
+	padding: 11px 18px 9px 0;
+	font-size: 21px;
+}
+
+.listings {
+  padding: 0 15px;
+  background: #fafafa;
+  border: 1px solid #e1e1e1;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  background-clip: padding-box;
+}
+
+.listings .offer_title {
+  padding: 10px;
+  margin: 0 -15px 0 -15px;
+  font: bold 15px 'OpenSansRegular';
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.listings .message {
+	margin: 0 -15px 0 -15px;
+  text-align: center;
+  font-size: 14px;
+  background: #fff;
+}
+
+.listings .my .head {
+  font-weight: bold;
+}
+
+.listings .my .row:first-child {
+  border-top: none;
+}
+
+.listings .my .row {
+  border-top: 1px solid #EBEBEB;
+}
+
+.listings .my .row:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.listings .my .row > div {
+  padding: 8px;
+  border-right: 1px solid #EBEBEB;
+}
+
+.listings .my .row > div:last-child {
+  text-align: right;
+  border-right: none;
+}
+
+.listings .my .row .issuer {
+  font-size: 11px;
+  color: #b3b3b3;
+}
+
+@media (max-width: 767px) {
+  .listings .my .row {
+    padding: 4px;
+    border: none;
+  }
+  .listings .my .row > div {
+    padding: 4px;
+    border: none;
+  }
+  .listings .my .row div:before {
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+    content: " " attr(data-label);
+  }
+}
+
+.listings .emptyMessage {
+  margin: 10px 0;
+}
+
+.cancelling {
+  color: #b3b3b3;
+}
+
+.cancelling .action a {
+  display: none;
+}
+
+.cancelling .action i {
+  font-size: 20px;
+}
+
+.alternatives {
+	display: block !important;
+}
+
+.message {
+	padding: 15px 0;
+	text-align: left;
+	font-size: 21px;
+	color: #3a3f43;
+}
+
+.message .result-success {
+	padding: 15px;
+	color: #000;
+  background-color: #8DC86A;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  background-clip: padding-box;
+}
+
+.alternatives > div {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.alternatives > div .am {
+  padding: 10px 0;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 5px;
+  background-clip: padding-box;
+}
+
+.alternatives > div .am .amnt {
+  padding: 0 8px 0 0;
+  font-size: 30px;
+}
+
+.alternatives > div .am .currency {
+  font-size: 20px;
+  color: #bbb;
+}
+
+.alternatives > div .am .ex {
+  color: #ccc;
+}
+
+.alternatives > div .am .ex .pair {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.alternatives > div .btn {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  background-clip: padding-box;
+}
+
+.pathupdate {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #B1B1B1;
+  border-top : none !important;
+}
+
+
+.mode-confirm {
+    font-size: 16px;
+    display: block !important;
+}
+
+.mode-confirm .value {
+  padding: 0 8px 0 0;
+  font-size: 36px;
+}
+
+.mode-confirm .currency {
+  font-size: 20px;
+}
+
+.mode-confirm .amount_feedback,
+.mode-confirm .dest_feedback {
+  padding: 20px;
+  margin: 0 0 10px 0;
+  font: 34px 'OpenSansLight';
+  background: #f3f3f3;
+}
+
+.mode-confirm .dest_feedback .extra {
+  font-size: 18px;
+  color: #999;
 }
