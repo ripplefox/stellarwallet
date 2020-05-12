@@ -4,14 +4,20 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
   function($scope, $rootScope, StellarApi, StellarOrderbook, SettingFactory) {
     $scope.offers = {
       origin : null,
-      ask : {},
-      bid : {},
       all : {},
+      ask : [],
+      bid : [],
+      clean : function() {
+        this.origin = null;
+        this.all = {};
+        this.ask = [];
+        this.bid = [];
+      },
       update : function(data) {
         this.origin = data;
         this.all = {};
-        this.ask = {};
-        this.bid = {};
+        this.ask = [];
+        this.bid = [];
         for (var i=0; i<data.length; i++) {
           var offer = data[i];
           var buy_code = offer.buying.asset_type == 'native' ? $rootScope.currentNetwork.coin.code : offer.buying.asset_code;
@@ -31,23 +37,34 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
 
           if (sameAsset(sell_code, sell_issuer, $scope.base_code, $scope.base_issuer)
 						&& sameAsset(buy_code, buy_issuer, $scope.counter_code, $scope.counter_issuer)) {
-            this.ask[offer.id] = {
+            this.ask.push({
               id : offer.id,
               amount : parseFloat(offer.amount),
               price  : parseFloat(offer.price),
               volume : offer.amount * offer.price
-            };
+            });
           }
           if (sameAsset(sell_code, sell_issuer, $scope.counter_code, $scope.counter_issuer)
 						&& sameAsset(buy_code, buy_issuer, $scope.base_code, $scope.base_issuer) ) {
-            this.bid[offer.id] = {
+            this.bid.push({
               id : offer.id,
               amount : offer.amount * offer.price,
               price  : 1 / offer.price,
               volume : parseFloat(offer.amount)
-            };
+            });
           }
         }
+        try {
+          this.ask = this.ask.sort((a, b) => {
+            return parseFloat(a.price) - parseFloat(b.price);
+          });
+          this.bid = this.bid.sort((a, b) => {
+            return parseFloat(b.price) - parseFloat(a.price);
+          });
+        } catch(e) {
+          cosole.error(e);
+        }
+        
       }
     }
 
@@ -291,25 +308,25 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
         $scope.refreshOffer();
       });
     }
+    
+    $scope.offerDelete = {};
+    $scope.isCancelling = function(id) {
+      return !!$scope.offerDelete[id];
+    }
 
     $scope.cancel = function(offer_id, type) {
       var offer = {id: offer_id};
-
-      $scope.offers.all[offer_id].canceling = true;
+      $scope.offerDelete[offer_id] = true;
       if (type === 'bid') {
-        $scope.offers.bid[offer_id].canceling = true;
         offer.price = $scope.offers.bid[offer_id].price;
         offer.selling = getAsset($scope.counter_code, $scope.counter_issuer);
         offer.buying  = getAsset($scope.base_code, $scope.base_issuer);
       } else if (type === 'ask') {
-        $scope.offers.ask[offer_id].canceling = true;
         offer.price = $scope.offers.ask[offer_id].price;
         offer.selling = getAsset($scope.base_code, $scope.base_issuer);
         offer.buying  = getAsset($scope.counter_code, $scope.counter_issuer);
       } else {
         // type === 'all'
-        if ($scope.offers.bid[offer_id]) { $scope.offers.bid[offer_id].canceling = true; }
-        if ($scope.offers.ask[offer_id]) { $scope.offers.ask[offer_id].canceling = true; }
         offer.price = $scope.offers.all[offer_id].price;
         offer.selling = getAsset($scope.offers.all[offer_id].sell_code, $scope.offers.all[offer_id].sell_issuer);
         offer.buying  = getAsset($scope.offers.all[offer_id].buy_code, $scope.offers.all[offer_id].buy_issuer);
@@ -328,6 +345,7 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
       $scope.show_pair = !$scope.show_pair;
       if (!$scope.show_pair) {
         $scope.book.clean();
+        $scope.offers.clean();
         $scope.listenOrderbook();
         $scope.refreshOffer();
         $scope.savePair();
@@ -352,6 +370,7 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
       $scope.pick('counter', old_base_code, old_base_issuer);
       if (!$scope.show_pair) {
         $scope.book.clean();
+        $scope.offers.clean();
         $scope.listenOrderbook();
         $scope.refreshOffer();
         $scope.savePair();
