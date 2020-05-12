@@ -24,15 +24,19 @@ myApp.controller("FooterCtrl", [ '$scope', '$translate', 'SettingFactory', 'Remo
     };
 
     $scope.version = appinfo.version;
-    $scope.new_version = false;
+    $scope.new_version = "";
     $scope.diff = false;
-    RemoteFactory.getNwjsClientVersion(function(err, data){
+    
+    RemoteFactory.getClientVersion(function(err, data){
       if (err) {
         console.warn('Can not get the version from github.', err);
       } else {
-        if (data && data.version) {
-          $scope.new_version = data.version;
-          $scope.diff = ($scope.version !== $scope.new_version);
+        $scope.new_version = data.version;
+        $scope.diff = $scope.version != $scope.new_version && $scope.version != data.beta;
+        if ($translate.use() == 'cn') {
+          $rootScope.updateMessage = data.message['cn'];
+        } else {
+          $rootScope.updateMessage = data.message['en'];
         }
       }
     });

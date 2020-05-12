@@ -1,0 +1,11 @@
+{
+  "name": "ReleaseVersion",
+  "version": "5.0.0",
+  "beta": "5.1.0",
+  "message": {
+  	"en" : "New version detected, you can download from https://github.com/ripplefox/stellarwallet/releases",
+  	"cn" : "发现钱包新版本，请从QQ群文件、网盘或github网站下载最新版本。",
+  	"jp" : "新しいウォレットバージョンが見つかりました。githubからダウンロードしてください。"
+  },
+  "description": "Wallet will check this version file on github when open. It will notify user when version different."
+}

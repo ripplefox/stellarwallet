@@ -57,12 +57,7 @@ myApp.factory('RemoteFactory', function($http) {
   }
 
   remote.getClientVersion = function(callback) {
-    var url = "https://raw.githubusercontent.com/stellarchat/desktop-client/master/src/package.json";
-    getResource(url, callback);
-  }
-
-  remote.getNwjsClientVersion = function(callback) {
-    var url = "https://raw.githubusercontent.com/stellarchat/desktop-client/nwjs/src/package.json";
+    var url = "https://raw.githubusercontent.com/ripplefox/stellarwallet/master/version.json";
     getResource(url, callback);
   }
 
