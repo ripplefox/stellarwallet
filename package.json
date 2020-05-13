@@ -38,11 +38,11 @@
     "win": {
       "productName": "FoxletStellar",
       "companyName": "RippleFox",
-      "icon": "./img/rocket.icns"
+      "icon": "./img/rocket.ico"
     },
     "mac": {
-      "displayName": "StellarManager",
-      "icon": "./img/rocket.ico"
+      "displayName": "FoxletStellar",
+      "icon": "./img/rocket.icns"
     }
   },
   "window": {
