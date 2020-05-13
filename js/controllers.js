@@ -34,9 +34,9 @@ myApp.controller("FooterCtrl", [ '$scope', '$translate', 'SettingFactory', 'Remo
         $scope.new_version = data.version;
         $scope.diff = $scope.version != $scope.new_version && $scope.version != data.beta;
         if ($translate.use() == 'cn') {
-          $rootScope.updateMessage = data.message['cn'];
+          $scope.updateMessage = data.message['cn'];
         } else {
-          $rootScope.updateMessage = data.message['en'];
+          $scope.updateMessage = data.message['en'];
         }
       }
     });
