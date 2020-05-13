@@ -88,8 +88,8 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
       SettingFactory.setTradepair($scope.base_code, $scope.base_issuer, $scope.counter_code, $scope.counter_issuer);
     }
 
-    $scope.base    = $rootScope.gateways.getSourceById($scope.base_issuer);
-    $scope.counter = $rootScope.gateways.getSourceById($scope.counter_issuer);
+    $scope.base    = $rootScope.gateways.getSourceById($scope.base_issuer, $scope.base_code);
+    $scope.counter = $rootScope.gateways.getSourceById($scope.counter_issuer, $scope.counter_code);
 
     $scope.precise = 2;
     $scope.price_precise = 4;
@@ -355,11 +355,11 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
       if (type == 'base') {
         $scope.base_code = code;
         $scope.base_issuer = issuer;
-        $scope.base = $rootScope.gateways.getSourceById($scope.base_issuer);
+        $scope.base = $rootScope.gateways.getSourceById(issuer, code);
       } else {
         $scope.counter_code = code;
         $scope.counter_issuer = issuer;
-        $scope.counter = $rootScope.gateways.getSourceById($scope.counter_issuer);
+        $scope.counter = $rootScope.gateways.getSourceById(issuer, code);
       }
       $scope.precise_jutify();
     }
