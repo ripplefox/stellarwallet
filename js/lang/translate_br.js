@@ -227,7 +227,7 @@ var translate_br = {
     save     : 'Salvar',
     security : 'Segurança',
     inflation : 'Inflation Destination',
-    inflation_desc : 'Novos {{name}}s são adicionados à rede a uma taxa de 1% ao ano. A cada semana, o protocolo distribui esses {{name}}s para qualquer conta que ultrapasse 0,05% dos "votos" de outras contas na rede.',
+    inflation_desc : 'Novos {{name}}s são adicionados à rede a uma taxa de 1% ao ano. A cada semana, o protocolo distribui esses {{name}}s para qualquer conta que ultrapasse 0,05% dos "votos" de outras contas na rede. STOPPED',
     inflation_done : 'Inflation Destination was set.',
     inflation_options      : 'Inflation pools',
     inflation_options_desc : 'You can join one of the following inflation pools. You can check their website to check the votes and the fee.',

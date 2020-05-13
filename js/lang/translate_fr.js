@@ -223,7 +223,7 @@ var translate_fr = {
   save     : 'Sauvegarder',
   security : 'Sécurité',
   inflation : 'Destination de l\'inflation',
-  inflation_desc : 'De nouveaux {{name}}s sont ajoutés au réseau à raison de 1% chaque année. Chaque semaine, le protocole distribue ces {{name}}s à n\'importe quel compte qui obtient plus de .05% des "votes" d\'autres comptes dans le réseau.',
+  inflation_desc : 'De nouveaux {{name}}s sont ajoutés au réseau à raison de 1% chaque année. Chaque semaine, le protocole distribue ces {{name}}s à n\'importe quel compte qui obtient plus de .05% des "votes" d\'autres comptes dans le réseau. STOPPED',
   inflation_done : 'La destination d\'inflation a été configurée.',
   inflation_options      : 'Autres options',
   inflation_options_desc : 'Vous pouvez rejoindre xlmpool.com pour obtenir les {{name}}s d\'inflation. Ou vous pouvez voter pour RippleFox.',

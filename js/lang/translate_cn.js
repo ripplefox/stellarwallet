@@ -223,7 +223,7 @@ var translate_cn = {
   save     : '保存',
   security : '安全',
   inflation : '通胀地址',
-  inflation_desc : '恒星币每年通胀率为1%。当通胀地址得到的票数超过0.05%的总量时，就能从每周的分发中得到利息。1万个{{code}}每周约得到2个{{code}}。',
+  inflation_desc : '恒星币原来每年通胀率为1%。当通胀地址得到的票数超过0.05%的总量时，就能从每周的分发中得到利息。恒星币已经停止了通胀功能。',
   inflation_done : '通胀地址设置成功',
   inflation_options      : '社区通胀池',
   inflation_options_desc : '你可以加入以下通胀池来得到每周的利息，不同的池子可能会收不同的手续费。',

@@ -223,7 +223,7 @@ var translate_en = {
   save     : 'Save',
   security : 'Security',
   inflation : 'Inflation Destination',
-  inflation_desc : 'New {{name}}s are added to the network at the rate of 1% each year. Each week, the protocol distributes these {{name}}s to any account that gets over .05% of the “votes” from other accounts in the network.',
+  inflation_desc : 'New {{name}}s are added to the network at the rate of 1% each year. Each week, the protocol distributes these {{name}}s to any account that gets over .05% of the “votes” from other accounts in the network. STOPPED',
   inflation_done : 'Inflation Destination was set.',
   inflation_options      : 'Inflation pools',
   inflation_options_desc : 'You can join one of the following inflation pools. You can check their website to check the votes and the fee.',
