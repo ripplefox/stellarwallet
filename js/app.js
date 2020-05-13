@@ -124,8 +124,10 @@ myApp.config(function($routeProvider, $httpProvider, $translateProvider, $compil
   });
 });
 
-myApp.run(['$rootScope', '$window', '$location', '$translate', 'AuthenticationFactory', 'StellarApi', 'SettingFactory', 'RemoteFactory', 'AnchorFactory',
-  function($rootScope, $window, $location, $translate, AuthenticationFactory, StellarApi, SettingFactory, RemoteFactory, AnchorFactory) {
+myApp.run(['$rootScope', '$window', '$location', '$translate', 
+           'AuthenticationFactory', 'StellarApi', 'SettingFactory', 'RemoteFactory', 'AnchorFactory', 'GatewayFactory', 'IcoDataFactory',
+  function($rootScope, $window, $location, $translate, 
+           AuthenticationFactory, StellarApi, SettingFactory, RemoteFactory, AnchorFactory, GatewayFactory, IcoDataFactory) {
 
     $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
       if ((nextRoute.access && nextRoute.access.requiredLogin) && !AuthenticationFactory.isInSession) {
@@ -194,24 +196,10 @@ myApp.run(['$rootScope', '$window', '$location', '$translate', 'AuthenticationFa
     };
 
     //the default gateway list
-    $rootScope.gateways = gateways;
-    RemoteFactory.getIcoAnchors(function(err, data){
-      if (err) {
-        console.error(err);
-      } else {
-        gateways.addAnchors(data);
-      }
-    });
+    $rootScope.gateways = GatewayFactory;
+    GatewayFactory.addAnchors(IcoDataFactory.anchors);
 
-    $rootScope.ico_data;
-    RemoteFactory.getIcoItems(function(err, data){
-      if (err) {
-        console.error(err);
-      } else {
-        $rootScope.ico_data = data;
-      }
-    });
-    for (var domain in gateways.data) {
+    for (var domain in GatewayFactory.data) {
       AnchorFactory.addAnchor(domain);
     }
 

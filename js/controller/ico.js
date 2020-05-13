@@ -1,35 +1,17 @@
 /* global myApp */
 
-myApp.controller("IcoCtrl", [ '$scope', '$rootScope', '$routeParams', 'StellarApi', 'SettingFactory', 'RemoteFactory',
-  function($scope, $rootScope, $routeParams, StellarApi, SettingFactory, RemoteFactory) {
+myApp.controller("IcoCtrl", [ '$scope', '$rootScope', '$routeParams', 'StellarApi', 'SettingFactory', 'RemoteFactory', 'IcoDataFactory',
+  function($scope, $rootScope, $routeParams, StellarApi, SettingFactory, RemoteFactory, IcoDataFactory) {
     //console.log('IcoCtrl', $routeParams.type);
 
-    if ($rootScope.ico_data) {
-      $rootScope.ico_data.ongoing.forEach(function(ico){
-        if (SettingFactory.getLang() == 'cn') {
-          ico.p1 = ico.p1_cn;
-          ico.p2 = ico.p2_cn;
-        }
-      });
-    }
-
-    //query again
-    RemoteFactory.getIcoItems(function(err, data){
-      if (err) {
-        if (!$rootScope.ico_data) {
-          $scope.trust_error = err.statusText || err.message;
-        }
-      } else {
-        console.log(data);
-        $rootScope.ico_data = data;
-        $rootScope.ico_data.ongoing.forEach(function(ico){
-          if (SettingFactory.getLang() == 'cn') {
-            ico.p1 = ico.p1_cn;
-            ico.p2 = ico.p2_cn;
-          }
-        });
+    $scope.ico_data = IcoDataFactory;
+    $scope.ico_data.ongoing.forEach(function(ico){
+      if (SettingFactory.getLang() == 'cn') {
+        ico.p1 = ico.p1_cn;
+        ico.p2 = ico.p2_cn;
       }
     });
+  
 
     $scope.hasLine = function(code, issuer) {
       if (!$rootScope.lines[code] || !$rootScope.lines[code][issuer]) {
