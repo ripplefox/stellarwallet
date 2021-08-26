@@ -30,7 +30,7 @@
     "jquery": "^3.5.0",
     "qrcode-generator": "^1.4.4",
     "sjcl": "^1.0.8",
-    "stellar-sdk": "^5.0.1",
+    "stellar-sdk": "^8.2.5",
     "underscore": "^1.9.2"
   },
   "build": {

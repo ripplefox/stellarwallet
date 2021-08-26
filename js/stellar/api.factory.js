@@ -412,6 +412,25 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         });
       },
 
+      claim(balanceId, callback) {
+        const opt = {balanceId: balanceId};
+        console.debug('Claim:', balanceId);
+        _server.loadAccount(this.address).then((account) => {
+          this._updateSeq(account);
+          const op = StellarSdk.Operation.claimClaimableBalance(opt);
+          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
+          return AuthenticationFactory.sign(te);
+        }).then((te) => {
+          return _server.submitTransaction(te);
+        }).then((txResult) => {
+          console.log('Balance claimed.', txResult);
+          callback(null, txResult.hash);
+        }).catch((err) => {
+          console.error('Claim Fail !', err);
+          callback(err, null);
+        });
+      },
+
       merge(destAccount, callback) {
         const opt = {destination: destAccount};
         console.debug('merge:', this.address, '->', destAccount);
@@ -445,6 +464,17 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
           $rootScope.$apply();
           if (callback) { callback(); }
           return;
+        });
+      },
+
+      queryClaim(callback) {
+        console.debug('queryClaimable', this.address);
+        _server.claimableBalances().claimant(this.address).limit(200).order("desc").call().then(balance => {
+          console.log(balance);
+          if (callback) { callback(null, balance); }
+        }).catch(function(err) {
+          console.error(`Claimable balance retrieval failed: ${err}`);
+          if (callback) { callback(err); }
         });
       },
 

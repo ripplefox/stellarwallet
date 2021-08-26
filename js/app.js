@@ -47,6 +47,12 @@ myApp.config(function($routeProvider, $httpProvider, $translateProvider, $compil
     access : {
       requiredLogin : true
     }
+  }).when('/claim', {
+    templateUrl : 'pages/balance_claim.html',
+    controller : 'ClaimCtrl',
+    access : {
+      requiredLogin : true
+    }
   }).when('/trust', {
     templateUrl : 'pages/trust.html',
     controller : 'TrustCtrl',
