@@ -47,6 +47,7 @@ var translate_br = {
     ledger_wallet_connect: 'Por favor, conecte a carteira Ledger.',
     /** Balance & Trust **/
     balance : 'Saldo',
+    claim : 'Afirmar',
     estimated : 'Valor estimado em ativos:',
     reserve   : 'Reserva:',
     total : 'Total',
@@ -326,5 +327,6 @@ var translate_br = {
 
     /** Error **/
     NotFoundError : 'O recurso não foi encontrado. Você deve ter pelo menos 1 {{name}} na sua conta para que ele seja ativado! Cada linha de confiança ou oferta requer uma reserva de 0.5 {{name}} além disso. Para facilitar, envie pelo menos 3 {{name}}s para a conta.',
-    changeTrustLowReserve : 'Não há fundos suficientes para criar uma nova linha de confiança. Cada linha de confiança requer uma reserva de 0.5 {{name}}.'
+    changeTrustLowReserve : 'Não há fundos suficientes para criar uma nova linha de confiança. Cada linha de confiança requer uma reserva de 0.5 {{name}}.',
+    claimClaimableBalanceCannotClaim : 'No se puede reclamar el saldo.'
   }

@@ -35,21 +35,26 @@ myApp.controller("ClaimCtrl", [ '$scope', '$rootScope', '$http', 'StellarApi', '
       });
     }
 
-
-    $scope.removeState = {};
-    $scope.setRemoving = function(code, issuer, state) {
-      if (!$scope.removeState[code]) {
-        $scope.removeState[code] = {};
-      }
-      $scope.removeState[code][issuer] = state;
-    };
-    $scope.isRemoving = function(code, issuer) {
-      if ($scope.removeState[code] && $scope.removeState[code][issuer]) {
-        return $scope.removeState[code][issuer];
-      } else {
+    $scope.hasLine = function(code, issuer) {
+      if (!$rootScope.lines[code] || !$rootScope.lines[code][issuer]) {
         return false;
       }
-    }
+      return $rootScope.lines[code][issuer].limit > 0;
+    };
+
+    $scope.addTrust = function(code, issuer, id) {
+      let amount = "100000000000";
+      let asset = $scope.unclaim[id];
+
+      asset.trusting = true;
+      StellarApi.changeTrust(code, issuer, amount, function(err, data){
+        asset.trusting = false;
+        if (err) {
+          asset.error = StellarApi.getErrMsg(err);
+        }
+        $scope.$apply();
+      });
+    };
 
     function getAvailableTime(asset) {
       let obj = asset.claimants.find(o => o.destination == $rootScope.address);
@@ -58,8 +63,5 @@ myApp.controller("ClaimCtrl", [ '$scope', '$rootScope', '$http', 'StellarApi', '
         return obj.predicate;
       }
     }
-
-
-
 
   } ]);

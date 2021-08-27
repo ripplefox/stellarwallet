@@ -47,6 +47,7 @@ var translate_en = {
   ledger_wallet_connect: 'Please connect Ledger.',
   /** Balance & Trust **/
   balance : 'Balance',
+  claim : 'Claim',
   estimated : 'Estimated value of holdings:',
   reserve   : 'Reserve:',
   total : 'Total',
@@ -280,5 +281,6 @@ var translate_en = {
 
   /** Error **/
   NotFoundError : 'The resource was not found. You must have at least 1 {{name}} in your account for it to be activated! Each trust line or offer requires a 0.5 {{name}}  reserve in addition. To make things easy, send at least 3 {{name}}s to the account.',
-  changeTrustLowReserve : 'Not enough funds to create a new trust line. Each trust line requires a 0.5 {{name}} reserve in addition.'
+  changeTrustLowReserve : 'Not enough funds to create a new trust line. Each trust line requires a 0.5 {{name}} reserve in addition.',
+  claimClaimableBalanceCannotClaim : 'Can not claim the balance.'
 }

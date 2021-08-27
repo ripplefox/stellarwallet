@@ -3,7 +3,6 @@
 	<div class="so-back islandBack islandBack--t">
 		<div class="island">
 			<div class="island__header">
-				{{ 'claimable_balances' | translate}}
 				<a class="btn btn-success btn-sm" ng-click="refresh()" ng-disabled="working">
 					<span class="glyphicon glyphicon-refresh"></span> {{'refresh' | translate}}</a>
 			</div>
@@ -12,7 +11,8 @@
 					<tr class="BalancesTable__headerRow">
 						<td>{{'asset' | translate}}</td>
 						<td><sapn>{{'balance' | translate}}</sapn></td>
-						<td><sapn>{{'trust_limit' | translate}}</sapn></td>
+						<td></td>
+						<td></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -25,20 +25,21 @@
 							<span> {{item.amount | number : 7}}</span></td>
 						<td>
 							<div class="row__shareOption">
-								<button class="s-button btn btn-success" ng-click="claim(id)" ng-disabled="item.claiming">{{'claim' | translate}} {{item.code}}</button>
-								<span ng-show="item.error">{{item.error}}</span>
-
-								<button class="s-button btn btn-danger" ng-show="hasLine(asset.code, asset.issuer) && !hasBalance(asset.code, asset.issuer)" ng-click="delTrust(asset.code, asset.issuer)" ng-disabled="isChanging(asset.code, asset.issuer)">{{'trust_remove' | translate}}</button>
-								<button class="s-button btn btn-warning" ng-show="hasLine(asset.code, asset.issuer) && hasBalance(asset.code, asset.issuer)" ng-disabled="true">{{'trust_remove_desc' | translate}}</button>
-								
-							</div>
-							
+								<button class="s-button btn btn-success" ng-hide="hasLine(item.code, item.issuer)" ng-click="addTrust(item.code, item.issuer, item.id)" ng-disabled="item.trusting">{{'trust_add' | translate}} {{asset.code}}</button> 
+							</div>							
+						</td>
+						<td>
+							<div class="row__shareOption">
+								<button class="s-button btn btn-success" ng-click="claim(id)" ng-disabled="item.claiming || !hasLine(item.code, item.issuer)">{{'claim' | translate}} {{item.code}}</button>
+							</div>							
 						</td>
 					</tr>
-					<tr ng-repeat-end ng-show="item.predicate" class="BalancesTable__row">
-						<td colspan=3>
-							<pre>{{item.predicate}}</pre>
-
+					<tr ng-repeat-end ng-show="item.predicate || item.error" class="BalancesTable__row">
+						<td colspan=4>
+							<div class="s-alert s-alert--alert row__message" ng-show="item.error">
+								{{item.error | translate}}
+							</div>
+							<pre ng-show="item.predicate">{{item.predicate}}</pre>
 						</td>
 					</tr>
 				</tobdy>

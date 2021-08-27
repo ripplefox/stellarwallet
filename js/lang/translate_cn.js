@@ -47,6 +47,7 @@ var translate_cn = {
   ledger_wallet_connect: '请连接Ledger.',
   /** Balance & Trust **/
   balance : '余额',
+  claim : '申领',
   estimated : '资产折合：',
   reserve   : '冻结：',
   total : '总量',
@@ -280,5 +281,6 @@ var translate_cn = {
 
   /** Error **/
   NotFoundError : '恒星网络未找到该账号，请先激活此账号。激活需要至少1 {{code}}。每个授信和委托单需要额外冻结0.5 {{code}}，建议至少用3 {{code}}完成激活。',
-  changeTrustLowReserve : '恒星资金不足，无法授信新资产。每个授信需要额外冻结0.5 {{code}}。'
+  changeTrustLowReserve : '恒星资金不足，无法授信新资产。每个授信需要额外冻结0.5 {{code}}。',
+  claimClaimableBalanceCannotClaim : '无法申领，可能是未达到申请条件或其他原因。'
 }

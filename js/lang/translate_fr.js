@@ -47,6 +47,7 @@ var translate_fr = {
   ledger_wallet_connect: 'S\'il vous plaît connecter Ledger.',
   /** Balance & Trust **/
   balance : 'Solde',
+  claim : 'Réclamer',
   estimated : 'Estimation de votre solde',
   reserve   : 'Reservé:',
   total : 'Total',
@@ -280,5 +281,6 @@ var translate_fr = {
 
   /** Error **/
   NotFoundError : 'La ressource n\'a pas été trouvée. Vous devez avoir au moins 1 {{name}} dans votre compte pour qu\'il soit actif! Chaque ligne de confiance ou offre nécessite une réserve de 0.5 {{name}}s suplémentaires. Pour faciliter les choses, envoyez au moins 3 {{name}}s au compte.',
-  changeTrustLowReserve : 'Pas assez de fonds pour créer une nouvelle ligne de confiance. Chaque ligne de confiance nécessite une réserve de 0.5 {{name}}s suplémentaires.'
+  changeTrustLowReserve : 'Pas assez de fonds pour créer une nouvelle ligne de confiance. Chaque ligne de confiance nécessite une réserve de 0.5 {{name}}s suplémentaires.',
+  claimClaimableBalanceCannotClaim : 'Impossible de réclamer le solde.'
 }
