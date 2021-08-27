@@ -30,6 +30,8 @@ myApp.controller("ClaimCtrl", [ '$scope', '$rootScope', '$http', 'StellarApi', '
         asset.claiming = false;
         if (err) {
           asset.error = StellarApi.getErrMsg(err);
+        } else {
+          $scope.refresh();
         }
         $scope.$apply();
       });
@@ -63,5 +65,4 @@ myApp.controller("ClaimCtrl", [ '$scope', '$rootScope', '$http', 'StellarApi', '
         return obj.predicate;
       }
     }
-
   } ]);
