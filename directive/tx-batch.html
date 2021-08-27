@@ -28,6 +28,11 @@
 				<div class="cell">{{op.line.issuer}}</div>
 				<div class="txamount cell">{{op.limit}} {{op.line.code}}</div>
 			</div>
+			<div ng-switch-when="createClaimableBalance" class="batchrow">
+				<div class="cell">{{op.type}}</div>
+				<div class="cell">{{op.asset.code}}</div>
+				<div class="txamount cell">{{op.amount}}</div>
+			</div>
 			<div ng-switch-when="manageOffer" class="batchrow">
 				<div class="cell">{{op.type}}</div>
 				<div class="cell">{{op.amount}} {{op.selling.issuer ? op.selling.code : item.nativeCode}}

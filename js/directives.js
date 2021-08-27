@@ -37,6 +37,13 @@ myApp.directive('txTrust', [ function() {
     replace : true
   }
 } ]);
+myApp.directive('txClaim', [ function() {
+  return {
+    restrict : 'E',
+    templateUrl : 'directive/tx-claim.html',
+    replace : true
+  }
+} ]);
 myApp.directive('txOffer', [ function() {
   return {
     restrict : 'E',
