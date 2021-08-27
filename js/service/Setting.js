@@ -12,7 +12,9 @@ myApp.factory('SettingFactory', function($window) {
         networkPassphrase: StellarSdk.Networks.PUBLIC,
         knownHorizons: [
           'https://horizon.stellar.org',  // First one is default.
-          'https://h.fchain.io'
+          'https://h.s1yun.com/v1',
+          'https://horizon.fchain.io',
+          'https://stellar-horizon.satoshipay.io'
         ],
         coin: {
           name: "lumen",
