@@ -32,7 +32,7 @@ myApp.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$location', '
             return;
           }
 
-          $location.path('/');
+          $location.path('/balance');
         });
       });
     }
@@ -51,7 +51,7 @@ myApp.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$location', '
             return;
           }
 
-          $location.path('/');
+          $location.path('/balance');
         });
       });
     }

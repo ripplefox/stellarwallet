@@ -41,6 +41,14 @@
 					{{'price' | translate}}: {{op.price}}
 				</div>
 			</div>
+			<div ng-switch-when="manageSellOffer" class="batchrow">
+				<div class="cell">{{op.type}}</div>
+				<div class="cell">{{op.amount}} {{op.selling.issuer ? op.selling.code : item.nativeCode}}
+					<span class="glyphicon glyphicon-arrow-right"></span>
+					{{op.buying.issuer ? op.buying.code : item.nativeCode}}
+					{{'price' | translate}}: {{op.price}}
+				</div>
+			</div>
 			<div ng-switch-when="manageData" class="batchrow">
 				<div class="cell">{{op.type}}</div>
 				<div class="cell">

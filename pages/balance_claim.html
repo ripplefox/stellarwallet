@@ -25,7 +25,7 @@
 							<span> {{item.amount | number : 7}}</span></td>
 						<td>
 							<div class="row__shareOption">
-								<button class="s-button btn btn-success" ng-hide="hasLine(item.code, item.issuer)" ng-click="addTrust(item.code, item.issuer, item.id)" ng-disabled="item.trusting">{{'trust_add' | translate}} {{asset.code}}</button> 
+								<button class="s-button btn btn-success" ng-hide="hasLine(item.code, item.issuer)" ng-click="addTrust(item.code, item.issuer, item.id)" ng-disabled="item.trusting">{{'trust_add' | translate}} {{item.code}}</button> 
 							</div>							
 						</td>
 						<td>
