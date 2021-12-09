@@ -3,6 +3,7 @@
   "version": "5.1.0",
   "description": "Foxlet destktop client for Stellar",
   "main": "main.js",
+  "chromium-args": "--disable-gpu",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dist": "build --tasks win-x86,win-x64,linux-x86,linux-x64,mac-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
@@ -30,7 +31,7 @@
     "jquery": "^3.5.0",
     "qrcode-generator": "^1.4.4",
     "sjcl": "^1.0.8",
-    "stellar-sdk": "^8.2.5",
+    "stellar-sdk": "^9.1",
     "underscore": "^1.9.2"
   },
   "build": {

@@ -128,8 +128,11 @@ myApp.factory('StellarHistory', ['$rootScope', 'SettingFactory', function($rootS
     },
 
     processTx(record, address) {
-      let tx = new StellarSdk.Transaction(record.envelope_xdr, _passphrase);
+      let envelopeXdr = StellarSdk.xdr.TransactionEnvelope.fromXDR(record.envelope_xdr, 'base64');
       let resultXdr = StellarSdk.xdr.TransactionResult.fromXDR(record.result_xdr, 'base64');
+      let metaXdr = StellarSdk.xdr.TransactionMeta.fromXDR(record.result_meta_xdr, 'base64');
+
+      console.log(envelopeXdr, resultXdr, metaXdr);
 
       let result = {
         date : new Date(record.created_at),
@@ -139,10 +142,19 @@ myApp.factory('StellarHistory', ['$rootScope', 'SettingFactory', function($rootS
         operation_count : record.operation_count,
         memo_type : record.memo_type,
         memo : record.memo,
-        resultCode : resultXdr.result().results()[0].value().value().switch().name,
         nativeCode : SettingFactory.getCoin(),
       };
 
+      let tx = new StellarSdk.TransactionBuilder.fromXDR(record.envelope_xdr, _passphrase);
+      if (tx instanceof StellarSdk.FeeBumpTransaction) {
+        console.log(tx);
+        result.source_account = tx.feeSource;
+        result.resultCode = resultXdr.result().switch().name;
+        tx = tx.innerTransaction;
+      } else {
+        result.resultCode = resultXdr.result().results()[0].value().value().switch().name;
+      }
+      
       for(const op of tx.operations) {
         switch(op.type){
         case 'payment':

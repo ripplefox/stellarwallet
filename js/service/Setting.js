@@ -14,7 +14,8 @@ myApp.factory('SettingFactory', function($window) {
           'https://horizon.stellar.org',  // First one is default.
           'https://h.s1yun.com/v1',
           'https://horizon.fchain.io',
-          'https://stellar-horizon.satoshipay.io'
+          'https://stellar-horizon.satoshipay.io',
+          'https://horizon.stellar.lobstr.co'
         ],
         coin: {
           name: "lumen",
@@ -71,7 +72,7 @@ myApp.factory('SettingFactory', function($window) {
       return $window.localStorage['basefee'] = basefee;
     },
     getBasefee : function(timeout) {
-      return $window.localStorage['basefee'] || '100';
+      return $window.localStorage['basefee'] || '1000';
     },
 
     setLang : function(lang) {
