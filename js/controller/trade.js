@@ -293,18 +293,19 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
         option.amount = $scope.sell_amount;
         option.price  = $scope.sell_price;
       }
-      StellarApi.offer(option, function(err, hash) {
-        $scope[type + 'ing'] = false;
-        if (err) {
-          $scope[type + '_fail'] = StellarApi.getErrMsg(err);
-        } else {
-          $scope[type + '_ok'] = true;
-          $scope[type + '_amount'] = "";
-          $scope[type + '_price'] = "";
-          $scope[type + '_volume'] = "";
-        }
+      StellarApi.offer(option).then(hash => {
+        $scope[type + 'ing'] = false;        
+        $scope[type + '_ok'] = true;
+        $scope[type + '_amount'] = "";
+        $scope[type + '_price'] = "";
+        $scope[type + '_volume'] = "";        
         $scope.$apply();
         //$scope.refreshBook();
+        $scope.refreshOffer();
+      }).catch(err => {
+        $scope[type + 'ing'] = false;
+        $scope[type + '_fail'] = StellarApi.getErrMsg(err);
+        $scope.$apply();
         $scope.refreshOffer();
       });
     }
@@ -332,10 +333,10 @@ myApp.controller("TradeCtrl", [ '$scope', '$rootScope', 'StellarApi', 'StellarOr
         offer.buying  = getAsset($scope.offers.all[offer_id].buy_code, $scope.offers.all[offer_id].buy_issuer);
       }
       $scope.cancel_error = "";
-      StellarApi.cancel(offer, function(err, hash){
-        if (err) {
-          $scope.cancel_error = StellarApi.getErrMsg(err);
-        }
+      StellarApi.cancel(offer).then(hash => {
+        $scope.refreshOffer();
+      }).catch(err => {
+        $scope.cancel_error = StellarApi.getErrMsg(err);
         $scope.refreshOffer();
       });
     }
