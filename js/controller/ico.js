@@ -44,12 +44,13 @@ myApp.controller("IcoCtrl", [ '$scope', '$rootScope', '$routeParams', 'StellarAp
       issuer = issuer || $scope.manual_issuer;
       $scope.setChanging(code, issuer, true);
       $scope.trust_error = "";
-      StellarApi.changeTrust(code, issuer, "100000000000", function(err, data){
+      StellarApi.changeTrust(code, issuer, "100000000000").then(hash => {
+        
+      }).catch(err => {
+        $scope.trust_error = StellarApi.getErrMsg(err);
+      }).finally( () => {
         $scope.setChanging(code, issuer, false);
-        if (err) {
-          $scope.trust_error = StellarApi.getErrMsg(err);
-        }
-        $rootScope.$apply();
+        $scope.$apply();
       });
     };
     $scope.delTrust = function(code, issuer) {
@@ -57,12 +58,13 @@ myApp.controller("IcoCtrl", [ '$scope', '$rootScope', '$routeParams', 'StellarAp
       issuer = issuer || $scope.manual_issuer;
       $scope.setChanging(code, issuer, true);
       $scope.trust_error = "";
-      StellarApi.changeTrust(code, issuer, "0", function(err, data){
+      StellarApi.changeTrust(code, issuer, "0").then(hash => {
+
+      }).catch(err => {
+        $scope.trust_error = StellarApi.getErrMsg(err);
+      }).finally( () => {
         $scope.setChanging(code, issuer, false);
-        if (err) {
-          $scope.trust_error = StellarApi.getErrMsg(err);
-        }
-        $rootScope.$apply();
-      });
+        $scope.$apply();
+      });;
     };
   } ]);

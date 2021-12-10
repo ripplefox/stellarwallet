@@ -49,11 +49,11 @@ myApp.controller("ClaimCtrl", [ '$scope', '$rootScope', '$http', 'StellarApi', '
       let asset = $scope.unclaim[id];
 
       asset.trusting = true;
-      StellarApi.changeTrust(code, issuer, amount, function(err, data){
+      StellarApi.changeTrust(code, issuer, amount).then(hash => {
+      }).catch(err => {
+        asset.error = StellarApi.getErrMsg(err);
+      }).finally(() => {
         asset.trusting = false;
-        if (err) {
-          asset.error = StellarApi.getErrMsg(err);
-        }
         $scope.$apply();
       });
     };

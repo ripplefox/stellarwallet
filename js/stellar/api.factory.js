@@ -375,26 +375,28 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         });
       },
 
-      changeTrust(code, issuer, limit, callback) {
+      changeTrust(code, issuer, limit) {
         const asset = new StellarSdk.Asset(code, issuer);
         console.debug('Turst asset', asset, limit);
-        _server.loadAccount(this.address).then((account) => {
-          this._updateSeq(account);
-          const op = StellarSdk.Operation.changeTrust({
-            asset: asset,
-            limit: limit.toString()
-          });
-          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
-          return AuthenticationFactory.sign(te);
-        }).then((te) => {
-          return _server.submitTransaction(te);
-        }).then((txResult) => {
-          console.log(txResult);
-          console.log('Trust updated.', txResult.hash);
-          callback(null, txResult.hash);
-        }).catch((err) => {
-          console.error('Trust Fail !', err);
-          callback(err, null);
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const account = await _server.loadAccount(this.address);
+            const fee = await this._calFee();
+            this._updateSeq(account);
+
+            const op = StellarSdk.Operation.changeTrust({
+              asset: asset,
+              limit: limit.toString()
+            });
+            const tx = this._txbuilder(account, null, fee).addOperation(op).setTimeout(_timeout).build();
+            const te = await AuthenticationFactory.sign(tx);
+            const txResult = await _server.submitTransaction(te);
+            console.log('Trust updated.', txResult);
+            resolve(txResult.hash);
+          } catch (err) {
+            console.error('Trust Fail !', err);
+            reject(err);
+          }
         });
       },
 

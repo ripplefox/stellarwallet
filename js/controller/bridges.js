@@ -283,12 +283,13 @@ myApp.controller("BridgesCtrl", [ '$scope', '$rootScope', '$location', 'SettingF
     $scope.addTrust = function(code, issuer) {
       $scope.deposit[code].trust_error = "";
       $scope.deposit[code].changing = true;
-      StellarApi.changeTrust(code, issuer, "100000000000", function(err, data){
+      StellarApi.changeTrust(code, issuer, "100000000000").then(hash => {
+        // DONE
+      }).catch(err => {
+        $scope.deposit[code].trust_error = StellarApi.getErrMsg(err);
+      }).finally(() => {
         $scope.deposit[code].changing = false;
-        if (err) {
-          $scope.deposit[code].trust_error = StellarApi.getErrMsg(err);
-        }
-        $rootScope.$apply();
+        $scope.$apply();
       });
     };
 

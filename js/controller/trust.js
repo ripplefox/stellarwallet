@@ -81,14 +81,13 @@ myApp.controller("TrustCtrl", [ '$scope', '$rootScope', 'StellarApi',
       }
 
       $scope.setChanging(code, issuer, true);
-      StellarApi.changeTrust(code, issuer, amount, function(err, data){
-        $scope.setChanging(code, issuer, false);
-        if (err) {
-          $scope.trust_error = StellarApi.getErrMsg(err);
-        } else {
-          $scope.trust_done = true;
-        }
-        $rootScope.$apply();
+      StellarApi.changeTrust(code, issuer, amount).then(hash => {
+        $scope.trust_done = true;
+      }).catch(err => {
+        $scope.trust_error = StellarApi.getErrMsg(err);
+      }).finally( () => {
+        $scope.setChanging(code, issuer, false);        
+        $scope.$apply();
       });
     };
     $scope.delTrust = function(code, issuer) {
@@ -97,14 +96,13 @@ myApp.controller("TrustCtrl", [ '$scope', '$rootScope', 'StellarApi',
       $scope.setChanging(code, issuer, true);
       $scope.trust_error = "";
       $scope.trust_done = false;
-      StellarApi.changeTrust(code, issuer, "0", function(err, data){
-        $scope.setChanging(code, issuer, false);
-        if (err) {
-          $scope.trust_error = StellarApi.getErrMsg(err);
-        } else {
-          $scope.trust_done = true;
-        }
-        $rootScope.$apply();
-      });
+      StellarApi.changeTrust(code, issuer, "0").then(hash => {
+        $scope.trust_done = true;
+      }).catch(err => {
+        $scope.trust_error = StellarApi.getErrMsg(err);
+      }).finally( () => {
+        $scope.setChanging(code, issuer, false);        
+        $scope.$apply();
+      });;
     };
   } ]);
