@@ -211,6 +211,8 @@ var translate_en = {
   coin_ticket: 'Native asset code',
   base_fee     : 'Base Fee',
   base_fee_desc: 'The fee for a transaction is the number of operations the transaction contains multiplied by the base fee. 100 stroops = 0.00001',
+  max_fee      : 'Max Fee',
+  max_fee_desc : 'Maximum fee to use with transactions.',
   timeout      : 'Transaction Timeout',
   timeout_desc : 'It is possible that the status of your transaction will be determined after a long time if the network is highly congested. The timeout number can not be negative. If the value is 0, the transaction is good indefinitely.',
   fed_protocol: 'Federation Protocol',

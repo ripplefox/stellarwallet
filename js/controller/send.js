@@ -341,17 +341,16 @@ myApp.controller("SendCtrl", ['$scope', '$rootScope', '$routeParams', 'StellarAp
       $scope.send_error.message = '';
 
       StellarApi.send($scope.real_address, $scope.asset.code, $scope.asset.issuer,
-        $scope.asset.amount, $scope.memo_type, $scope.memo, function(err, hash){
+        $scope.asset.amount, $scope.memo_type, $scope.memo).then(hash => {
           $scope.sending = false;
-
-          if (err) {
-            $scope.send_error.message = StellarApi.getErrMsg(err);
-          } else {
-            $scope.service_amount = 0;
-            $scope.asset.amount = 0;
-            $scope.send_done = true;
-          }
-          $rootScope.$apply();
+          $scope.service_amount = 0;
+          $scope.asset.amount = 0;
+          $scope.send_done = true;          
+          $scope.$apply();
+        }).catch(err => {
+          $scope.sending = false;
+          $scope.send_error.message = StellarApi.getErrMsg(err);
+          $scope.$apply();
         });
     };
 

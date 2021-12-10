@@ -210,6 +210,8 @@ var translate_cn = {
   passphrase : '网络标识',
   base_fee     : '基础费用',
   base_fee_desc: '交易费用等于交易中的操作数乘以基础费用。100 stroops = 0.00001',
+  max_fee      : '最大费用',
+  max_fee_desc : '网络繁忙时，交易允许使用的最大费用。',
   timeout      : '网络超时',
   timeout_desc : '在网络繁忙时，你可以设置一个时间（秒）使其返回交易结果。设成0代表无限制。',
   coin_ticket: '资产代码',

@@ -215,6 +215,8 @@ var translate_br = {
     coin_ticket: 'Native asset code',
     base_fee     : 'Taxa Base',
     base_fee_desc: 'A taxa para uma transação é o número de operações que a transação contém multiplicada pela taxa base. 100 stroops = 0.00001',
+    max_fee      : 'Taxa máxima',
+    max_fee_desc : 'Taxa máxima para usar com transações..',
     timeout      : 'Tempo limite de transação',
     timeout_desc : 'É possível que o status de sua transação seja determinado após um longo período se a rede estiver altamente congestionada. O número de tempo limite não pode ser negativo. Se o valor for 0, a transação é boa indefinidamente.',
     fed_protocol: 'Federation Protocol',

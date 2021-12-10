@@ -256,6 +256,7 @@ myApp.run(['$rootScope', '$window', '$location', '$translate',
     $translate.use(SettingFactory.getLang());
     try {
       StellarApi.setServer(SettingFactory.getStellarUrl(), SettingFactory.getNetPassphrase(), SettingFactory.getAllowHttp());
+      StellarApi.setMaxfee(SettingFactory.getMaxfee());
       StellarApi.setTimeout(SettingFactory.getTimeout());
     } catch(e) {
       console.error("Cannot set server", SettingFactory.getStellarUrl(), SettingFactory.getNetworkType(), e);

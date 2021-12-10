@@ -211,6 +211,8 @@ var translate_fr = {
   coin_ticket: 'Code d\'actif natif',
   base_fee     : 'Frais de base',
   base_fee_desc: 'Les frais pour une transaction correspondent au nombre d\'opérations contenues dans la transaction, multiplié par les frais de base. 100 stroops = 0.00001',
+  max_fee      : 'Frais maximum',
+  max_fee_desc : 'Frais maximum à utiliser avec les transactions.',
   timeout      : 'Délai de transaction',
   timeout_desc : 'Il est possible que l\'état de votre transaction soit déterminé après une longue période si le réseau est fortement encombré. Le nombre de timeout ne peut pas être négatif. Si la valeur est 0, la transaction est valide indéfiniment.',
   fed_protocol: 'Protocole de Fédération',

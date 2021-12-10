@@ -10,7 +10,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
     let _server;
     let _passphrase;
     let _timeout = 45;
-    let _basefee = 100;
+    let _maxfee = 0;
 
     const _seq = {
       snapshot : "",
@@ -32,9 +32,12 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         return AuthenticationFactory.address;
       },
       
-      _txbuilder(account, memo) {
+      _txbuilder(account, memo, fee) {
+        if (fee > _maxfee * 10000000) {
+          throw new Error("Max fee too low for network conditions.");
+        }
         var option = {
-          fee : _basefee,
+          fee : fee,
           networkPassphrase : _passphrase
         };
         if (memo) {
@@ -56,83 +59,83 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         _seq.time = now;
       },
 
-      _isFunded(address, callback) {
-        _server.accounts().accountId(address).call().then((accountResult) => {
-          callback(null, true);
-        }).catch((err) => {
-          if (err instanceof StellarSdk.NotFoundError) {
-            callback(null, false);
-          } else {
-            callback(err, false);
+      _fund(target, amount, memo_type, memo_value) {
+        amount = round(amount, 7);
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const account = await _server.loadAccount(this.address);
+            const fee = await _server.fetchBaseFee();
+            console.log("Fee:", fee);
+            this._updateSeq(account);
+
+            const payment = StellarSdk.Operation.createAccount({
+              destination: target,
+              startingBalance: amount.toString()
+            });
+            const memo = new StellarSdk.Memo(memo_type, memo_value);
+            const tx = this._txbuilder(account, memo, fee).addOperation(payment).setTimeout(_timeout).build();
+            const te = await AuthenticationFactory.sign(tx);
+            const txResult = await _server.submitTransaction(te);
+            console.log(`Funded.`, txResult);
+            resolve(txResult.hash);
+          } catch (err) {
+            console.error('Fund Fail !', err);
+            reject(err);
           }
         });
       },
 
-      _fund(target, amount, memo_type, memo_value, callback) {
+      _sendCoin(target, amount, memo_type, memo_value) {
         amount = round(amount, 7);
-        _server.loadAccount(this.address).then((account) => {
-          this._updateSeq(account);
-          const payment = StellarSdk.Operation.createAccount({
-            destination: target,
-            startingBalance: amount.toString()
-          });
-          const memo = new StellarSdk.Memo(memo_type, memo_value);
-          const te = this._txbuilder(account, memo).addOperation(payment).setTimeout(_timeout).build();
-          return AuthenticationFactory.sign(te);
-        }).then((te) => {
-          return _server.submitTransaction(te);
-        }).then((txResult) => {
-          console.debug('Funded.', txResult);
-          callback(null, txResult.hash);
-        }).catch((err) => {
-          console.error('Fund Fail !', err);
-          callback(err, null);
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const account = await _server.loadAccount(this.address);
+            const fee = await _server.fetchBaseFee();
+            console.log("Fee:", fee);
+            this._updateSeq(account);
+
+            const payment = StellarSdk.Operation.payment({
+              destination: target,
+              asset: StellarSdk.Asset.native(),
+              amount: amount.toString()
+            });
+            const memo = new StellarSdk.Memo(memo_type, memo_value);
+            const tx = this._txbuilder(account, memo, fee).addOperation(payment).setTimeout(_timeout).build();
+            const te = await AuthenticationFactory.sign(tx);
+            const txResult = await _server.submitTransaction(te);
+            console.log(`Send ${$rootScope.currentNetwork.coin.code} done.`, txResult);
+            resolve(txResult.hash);
+          } catch (err) {
+            console.error('Send Fail !', err);
+            reject(err);
+          }
         });
       },
 
-      _sendCoin(target, amount, memo_type, memo_value, callback) {
+      _sendToken(target, currency, issuer, amount, memo_type, memo_value) {
         amount = round(amount, 7);
-        _server.loadAccount(this.address).then((account) => {
-          this._updateSeq(account);
-          const payment = StellarSdk.Operation.payment({
-            destination: target,
-            asset: StellarSdk.Asset.native(),
-            amount: amount.toString()
-          });
-          const memo = new StellarSdk.Memo(memo_type, memo_value);
-          const te = this._txbuilder(account, memo).addOperation(payment).setTimeout(_timeout).build();
-          return AuthenticationFactory.sign(te);
-        }).then((te) => {
-          return _server.submitTransaction(te);
-        }).then((txResult) => {
-          console.log(`Send ${$rootScope.currentNetwork.coin.code} done.`, txResult);
-          callback(null, txResult.hash);
-        }).catch((err) => {
-          console.error('Send Fail !', err);
-          callback(err, null);
-        });
-      },
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const account = await _server.loadAccount(this.address);
+            const fee = await _server.fetchBaseFee();
+            console.log("Fee:", fee);
+            this._updateSeq(account);
 
-      _sendToken(target, currency, issuer, amount, memo_type, memo_value, callback) {
-        amount = round(amount, 7);
-        _server.loadAccount(this.address).then((account) => {
-          this._updateSeq(account);
-          const payment = StellarSdk.Operation.payment({
-            destination: target,
-            asset: new StellarSdk.Asset(currency, issuer),
-            amount: amount.toString()
-          });
-          const memo = new StellarSdk.Memo(memo_type, memo_value);
-          const te = this._txbuilder(account, memo).addOperation(payment).setTimeout(_timeout).build();
-          return AuthenticationFactory.sign(te);
-        }).then((te) => {
-          return _server.submitTransaction(te);
-        }).then((txResult) => {
-          console.log('Send Asset done.', txResult);
-          callback(null, txResult.hash);
-        }).catch((err) => {
-          console.error('Send Fail !', err);
-          callback(err, null);
+            const payment = StellarSdk.Operation.payment({
+              destination: target,
+              asset: new StellarSdk.Asset(currency, issuer),
+              amount: amount.toString()
+            });
+            const memo = new StellarSdk.Memo(memo_type, memo_value);
+            const tx = this._txbuilder(account, memo, fee).addOperation(payment).setTimeout(_timeout).build();
+            const te = await AuthenticationFactory.sign(tx);
+            const txResult = await _server.submitTransaction(te);
+            console.log('Send Asset done.', txResult);
+            resolve(txResult.hash);
+          } catch (err) {
+            console.error('Send Fail !', err);
+            reject(err);
+          }
         });
       },
 
@@ -238,8 +241,8 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
       setTimeout(timeout) {
         _timeout = parseFloat(timeout);
       },
-      setBasefee(basefee) {
-        _basefee = parseFloat(basefee);
+      setMaxfee(maxfee) {
+        _maxfee = parseFloat(maxfee);
       },
 
       isValidMemo(type, memo) {
@@ -251,24 +254,31 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         }
       },
 
-      send(target, currency, issuer, amount, memo_type, memo_value, callback) {
+      send(target, currency, issuer, amount, memo_type, memo_value) {
         amount = round(amount, 7);
         console.debug(target, currency, issuer, amount, memo_type, memo_value);
-        if (currency == $rootScope.currentNetwork.coin.code) {
-          this._isFunded(target, (err, isFunded) => {
-            if (err) {
-              return callback(err, null);
-            } else {
-              if (isFunded) {
-                this._sendCoin(target, amount, memo_type, memo_value, callback);
-              } else {
-                this._fund(target, amount, memo_type, memo_value, callback);
-              }
-            }
-          });
-        } else {
-          this._sendToken(target, currency, issuer, amount, memo_type, memo_value, callback);
+        if (currency !== $rootScope.currentNetwork.coin.code) {
+          return this._sendToken(target, currency, issuer, amount, memo_type, memo_value);
         }
+
+        //Send native asset
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const accountResult = await _server.accounts().accountId(target).call();
+            const hash = await this._sendCoin(target, amount, memo_type, memo_value);
+            resolve(hash);
+          } catch (err) {
+            if (err instanceof StellarSdk.NotFoundError) {
+              this._fund(target, amount, memo_type, memo_value).then(hash => {
+                resolve(hash);
+              }).catch(err2 => {
+                reject(err2);
+              });
+            } else {
+              reject(err);
+            }            
+          }
+        });
       },
 
       convert(alt, callback) {

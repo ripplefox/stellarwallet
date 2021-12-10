@@ -68,11 +68,11 @@ myApp.factory('SettingFactory', function($window) {
       return $window.localStorage['timeout'] || '45';
     },
 
-    setBasefee : function(basefee) {
-      return $window.localStorage['basefee'] = basefee;
+    setMaxfee : function(maxfee) {
+      return $window.localStorage['maxfee'] = maxfee;
     },
-    getBasefee : function(timeout) {
-      return $window.localStorage['basefee'] || '1000';
+    getMaxfee : function(timeout) {
+      return $window.localStorage['maxfee'] || '0.2';
     },
 
     setLang : function(lang) {
