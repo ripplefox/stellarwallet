@@ -175,9 +175,7 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         return new Promise(async (resolve, reject)=>{
           try {
             const account = await _server.loadAccount(this.address);
-            const feeStats = await _server.feeStats();
-            const fee = round(parseFloat(feeStats.fee_charged.p20) * 1.02);
-            console.log("Fee:", fee, feeStats);
+            const fee = await this._calFee();
             this._updateSeq(account);
 
             let op;
@@ -364,14 +362,17 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
           });
       },
 
-      getInfo(address, callback) {
-        _server.accounts().accountId(address||this.address).call().then((data) => {
-          callback(null, data);
-        }).catch((err) => {
-          if (!(err instanceof StellarSdk.NotFoundError)) {
-            console.error(address, err);
+      getInfo(address) {
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const data = await _server.accounts().accountId(address||this.address).call();
+            resolve(data);
+          } catch (err) {
+            if (!(err instanceof StellarSdk.NotFoundError)) {
+              console.error(address, err);
+            }
+            reject(err);
           }
-          callback(err, null);
         });
       },
 
@@ -400,80 +401,92 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         });
       },
 
-      setOption(name, value, callback) {
+      setOption(name, value) {
         const opt = {};
         opt[name] = value
         console.debug('set option:', name, '-', value);
-        _server.loadAccount(this.address).then((account) => {
-          this._updateSeq(account);
-          const op = StellarSdk.Operation.setOptions(opt);
-          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
-          return AuthenticationFactory.sign(te);
-        }).then((te) => {
-          return _server.submitTransaction(te);
-        }).then((txResult) => {
-          console.log('Option updated.', txResult);
-          callback(null, txResult.hash);
-        }).catch((err) => {
-          console.error('Option Fail !', err);
-          callback(err, null);
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const account = await _server.loadAccount(this.address);
+            const fee = await this._calFee();
+            this._updateSeq(account);
+
+            const op = StellarSdk.Operation.setOptions(opt);
+            const tx = this._txbuilder(account, null, fee).addOperation(op).setTimeout(_timeout).build();
+            const te = await AuthenticationFactory.sign(tx);
+            const txResult = await _server.submitTransaction(te);
+            console.log('Option updated.', txResult);
+            resolve(txResult.hash);
+          } catch (err) {
+            console.error('Option Fail !', err);
+            reject(err);
+          }
         });
       },
 
-      setData(name, value, callback) {
+      setData(name, value) {
         const opt = {name: name, value: value? value : null};
         console.debug('manageData:', name, '-', value);
-        _server.loadAccount(this.address).then((account) => {
-          this._updateSeq(account);
-          const op = StellarSdk.Operation.manageData(opt);
-          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
-          return AuthenticationFactory.sign(te);
-        }).then((te) => {
-          return _server.submitTransaction(te);
-        }).then((txResult) => {
-          console.log('Data updated.', txResult);
-          callback(null, txResult.hash);
-        }).catch((err) => {
-          console.error('manageData Fail !', err);
-          callback(err, null);
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const account = await _server.loadAccount(this.address);
+            const fee = await this._calFee();
+            this._updateSeq(account);
+
+            const op = StellarSdk.Operation.manageData(opt);
+            const tx = this._txbuilder(account, null, fee).addOperation(op).setTimeout(_timeout).build();
+            const te = await AuthenticationFactory.sign(tx);
+            const txResult = await _server.submitTransaction(te);
+            console.log('Data updated.', txResult);
+            resolve(txResult.hash);
+          } catch (err) {
+            console.error('Data Fail !', err);
+            reject(err);
+          }
         });
       },
 
-      claim(balanceId, callback) {
+      claim(balanceId) {
         const opt = {balanceId: balanceId};
         console.debug('Claim:', balanceId);
-        _server.loadAccount(this.address).then((account) => {
-          this._updateSeq(account);
-          const op = StellarSdk.Operation.claimClaimableBalance(opt);
-          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
-          return AuthenticationFactory.sign(te);
-        }).then((te) => {
-          return _server.submitTransaction(te);
-        }).then((txResult) => {
-          console.log('Balance claimed.', txResult);
-          callback(null, txResult.hash);
-        }).catch((err) => {
-          console.error('Claim Fail !', err);
-          callback(err, null);
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const account = await _server.loadAccount(this.address);
+            const fee = await this._calFee();
+            this._updateSeq(account);
+
+            const op = StellarSdk.Operation.claimClaimableBalance(opt);
+            const tx = this._txbuilder(account, null, fee).addOperation(op).setTimeout(_timeout).build();
+            const te = await AuthenticationFactory.sign(tx);
+            const txResult = await _server.submitTransaction(te);
+            console.log('Balance claimed.', txResult);
+            resolve(txResult.hash);
+          } catch (err) {
+            console.error('Claim Fail !', err);
+            reject(err);
+          }
         });
       },
 
-      merge(destAccount, callback) {
+      merge(destAccount) {
         const opt = {destination: destAccount};
         console.debug('merge:', this.address, '->', destAccount);
-        _server.loadAccount(this.address).then((account) => {
-          this._updateSeq(account);
-          const op = StellarSdk.Operation.accountMerge(opt);
-          const te = this._txbuilder(account).addOperation(op).setTimeout(_timeout).build();
-          return AuthenticationFactory.sign(te);
-        }).then((te) => {
-          return _server.submitTransaction(te);
-        }).then((txResult) => {
-          console.log('Account merged.', txResult);
-          callback(null, txResult.hash);
-        }).catch((err) => {
-          console.error('accountMerge Fail !', err);
-          callback(err, null);
+        return new Promise(async (resolve, reject)=>{
+          try {
+            const account = await _server.loadAccount(this.address);
+            const fee = await this._calFee();
+            this._updateSeq(account);
+
+            const op = StellarSdk.Operation.accountMerge(opt);
+            const tx = this._txbuilder(account, null, fee).addOperation(op).setTimeout(_timeout).build();
+            const te = await AuthenticationFactory.sign(tx);
+            const txResult = await _server.submitTransaction(te);
+            console.log('Account merged.', txResult);
+            resolve(txResult.hash);
+          } catch (err) {
+            console.error('accountMerge Fail !', err);
+            reject(err);
+          }
         });
       },
 
@@ -652,13 +665,33 @@ myApp.factory('StellarApi', ['$rootScope', 'StellarHistory', 'StellarOrderbook',
         } else {
           message = err.detail || err.message;
         }
-
+        console.warn(getErrCode(err));
         if (!message) console.error("Fail in getErrMsg", err);
         return message;
       },
 
     };
   } ]);
+
+function getErrCode(error) {
+  if (error.error) {
+      return error.error;
+  }
+  if (!error.response) {
+      return error.toString();
+  }
+  const { data } = error.response;
+  if (!data) {
+      return `clientError - ${error.message}`;
+  }
+  if (!data.extras || !data.extras.result_codes) {
+      return `unknownResponse - ${error.message}`;
+  }
+  if (data.extras.result_codes.transaction === 'tx_failed') {
+      return data.extras.result_codes.operations.find(op => op !== 'op_success');
+  }
+  return data.extras.result_codes.transaction;
+}
 
 /* exported b64DecodeUnicode */
 const b64DecodeUnicode = (str) => {

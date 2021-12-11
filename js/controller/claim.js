@@ -26,13 +26,12 @@ myApp.controller("ClaimCtrl", [ '$scope', '$rootScope', '$http', 'StellarApi', '
       let asset = $scope.unclaim[id];
       console.debug('Claiming', asset);
       asset.claiming = true;
-      StellarApi.claim(id, function(err){
+      StellarApi.claim(id).then(hash => {
+        $scope.refresh();
+      }).catch(err => {
+        asset.error = StellarApi.getErrMsg(err);
+      }).finally(()=>{
         asset.claiming = false;
-        if (err) {
-          asset.error = StellarApi.getErrMsg(err);
-        } else {
-          $scope.refresh();
-        }
         $scope.$apply();
       });
     }

@@ -28,17 +28,16 @@ myApp.controller("SecurityCtrl", ['$scope', '$rootScope', 'AuthenticationFactory
 
     $scope.network_error;
     $scope.refresh = function() {
-      StellarApi.getInfo(null, function(err, data) {
-        if (err) {
-          $scope.network_error = StellarApi.getErrMsg(err);
-        } else {
-          $scope.inflation = data.inflation_destination;
-          $scope.domain = data.home_domain;
-          $scope.data_attr = {};
-          for (var key in data.data_attr) {
-            $scope.data_attr[key] = b64DecodeUnicode(data.data_attr[key]);
-          }
+      StellarApi.getInfo().then(data => {
+        $scope.inflation = data.inflation_destination;
+        $scope.domain = data.home_domain;
+        $scope.data_attr = {};
+        for (var key in data.data_attr) {
+          $scope.data_attr[key] = b64DecodeUnicode(data.data_attr[key]);
         }
+      }).catch(err => {
+        $scope.network_error = StellarApi.getErrMsg(err);
+      }).finally(() => {        
         $scope.$apply();
       });
     };
@@ -52,13 +51,12 @@ myApp.controller("SecurityCtrl", ['$scope', '$rootScope', 'AuthenticationFactory
       $scope.inflation_error = '';
       $scope.inflation_done = false;
       $scope.inflation_working = true;
-      StellarApi.setOption('inflationDest', $scope.inflation, function(err, hash){
+      StellarApi.setOption('inflationDest', $scope.inflation).then(hash => {
+        $scope.inflation_done = true;
+      }).catch(err => {
+        $scope.inflation_error = StellarApi.getErrMsg(err);
+      }).finally(()=>{
         $scope.inflation_working = false;
-        if (err) {
-          $scope.inflation_error = StellarApi.getErrMsg(err);
-        } else {
-          $scope.inflation_done = true;
-        }
         $scope.$apply();
       });
     };
@@ -88,13 +86,12 @@ myApp.controller("SecurityCtrl", ['$scope', '$rootScope', 'AuthenticationFactory
       $scope.domain_error = '';
       $scope.domain_done = false;
       $scope.domain_working = true;
-      StellarApi.setOption('homeDomain', $scope.domain, function(err, hash){
+      StellarApi.setOption('homeDomain', $scope.domain).then(hash => {
+        $scope.domain_done = true;
+      }).catch(err => {
+        $scope.domain_error = StellarApi.getErrMsg(err);
+      }).finally(()=>{
         $scope.domain_working = false;
-        if (err) {
-          $scope.domain_error = StellarApi.getErrMsg(err);
-        } else {
-          $scope.domain_done = true;
-        }
         $scope.$apply();
       });
     };
@@ -109,18 +106,17 @@ myApp.controller("SecurityCtrl", ['$scope', '$rootScope', 'AuthenticationFactory
       $scope.data_error = '';
       $scope.data_done = false;
       $scope.data_working = true;
-      StellarApi.setData($scope.data_key, $scope.data_value, function(err, hash){
-        $scope.data_working = false;
-        if (err) {
-          $scope.data_error = StellarApi.getErrMsg(err);
+      StellarApi.setData($scope.data_key, $scope.data_value).then(hash => {
+        if ($scope.data_value) {
+          $scope.data_attr[$scope.data_key] = $scope.data_value;
         } else {
-          if ($scope.data_value) {
-            $scope.data_attr[$scope.data_key] = $scope.data_value;
-          } else {
-            delete $scope.data_attr[$scope.data_key];
-          }
-          $scope.data_done = true;
+          delete $scope.data_attr[$scope.data_key];
         }
+        $scope.data_done = true;
+      }).catch(err => {
+        $scope.data_error = StellarApi.getErrMsg(err);
+      }).finally(()=>{
+        $scope.data_working = false;
         $scope.$apply();
       });
     };
@@ -133,15 +129,14 @@ myApp.controller("SecurityCtrl", ['$scope', '$rootScope', 'AuthenticationFactory
       $scope.merge_error = '';
       $scope.merge_done = false;
       $scope.merge_working = true;
-      StellarApi.merge($scope.dest_account, function(err, hash){
+      StellarApi.merge($scope.dest_account).then(hash => {
+        $rootScope.balance = 0;
+        $rootScope.reserve = 0;
+        $scope.merge_done = true;
+      }).catch(err => {
+        $scope.merge_error = StellarApi.getErrMsg(err);
+      }).finally(()=>{
         $scope.merge_working = false;
-        if (err) {
-          $scope.merge_error = StellarApi.getErrMsg(err);
-        } else {
-          $rootScope.balance = 0;
-          $rootScope.reserve = 0;
-          $scope.merge_done = true;
-        }
         $scope.$apply();
       });
     };

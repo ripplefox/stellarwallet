@@ -51,20 +51,19 @@ myApp.factory('AnchorFactory', ['$rootScope', 'StellarApi',
 
       console.debug('Parse domain of ' + address);
       self.address[address].parsing = true;
-      StellarApi.getInfo(address, function(err, data) {
-        self.address[address].parsing = false;
-        if (err) {
-          console.error(err);
+      StellarApi.getInfo(address).then(data => {
+        self.address[address].parsed = true;
+        if (data.home_domain) {
+          console.debug(address, data.home_domain);
+          self.address[address].domain = data.home_domain;
+          self.addAnchor(data.home_domain);
         } else {
-          self.address[address].parsed = true;
-          if (data.home_domain) {
-            console.debug(address, data.home_domain);
-            self.address[address].domain = data.home_domain;
-            self.addAnchor(data.home_domain);
-          } else {
-            console.debug(address + ' home_domain not set.');
-          }
+          console.debug(address + ' home_domain not set.');
         }
+      }).catch(err => {
+        console.error(err);
+      }).finally(() => {
+        self.address[address].parsing = false;
       });
     }
 

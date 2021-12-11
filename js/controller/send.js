@@ -282,55 +282,54 @@ myApp.controller("SendCtrl", ['$scope', '$rootScope', '$routeParams', 'StellarAp
       }
       console.debug('resolve ' + $scope.real_address);
       $scope.act_loading = true;
-      StellarApi.getInfo($scope.real_address, function(err, data) {
-        $scope.act_loading = false;
-        if (err) {
-          if (err instanceof StellarSdk.NotFoundError) {
-            $scope.real_not_fund = true;
-            $scope.send.unshift({
-              code   : $rootScope.currentNetwork.coin.code,
-              issuer : '',
-              name   : $rootScope.currentNetwork.coin.name,
-              logo   : $rootScope.currentNetwork.coin.logo
-            });
-
-            if ($scope.asset.code !== $rootScope.currentNetwork.coin.code) {
-              $scope.pickCoin();
-            }
+      StellarApi.getInfo($scope.real_address).then(data => {
+        var accept = [];
+        var code, issuer, name, logo;
+        data.balances.forEach(function(line){
+          if (line.asset_type == 'native') {
+            accept.push($rootScope.currentNetwork.coin.code);
+            code = $rootScope.currentNetwork.coin.code;
+            issuer = '';
+            name = $rootScope.currentNetwork.coin.name;
+            logo = $rootScope.currentNetwork.coin.logo;
           } else {
-            $scope.send_error.message = StellarApi.getErrMsg(err);
-            console.error('resolveAccountInfo', err);
+            if (accept.indexOf(line.asset_code) < 0) {
+              accept.push(line.asset_code);
+            }
+            code = line.asset_code;
+            issuer = line.asset_issuer;
+            var gateway = $rootScope.gateways.getSourceById(issuer);
+            name = gateway.name;
+            logo = gateway.logo;
+          }
+
+          $scope.send.unshift({
+            code   : code,
+            issuer : issuer,
+            name   : name,
+            logo   : logo
+          });
+        });
+        $scope.real_accept = accept.join(', ');        
+      }).catch(err => {
+        if (err instanceof StellarSdk.NotFoundError) {
+          $scope.real_not_fund = true;
+          $scope.send.unshift({
+            code   : $rootScope.currentNetwork.coin.code,
+            issuer : '',
+            name   : $rootScope.currentNetwork.coin.name,
+            logo   : $rootScope.currentNetwork.coin.logo
+          });
+
+          if ($scope.asset.code !== $rootScope.currentNetwork.coin.code) {
+            $scope.pickCoin();
           }
         } else {
-          var accept = [];
-          var code, issuer, name, logo;
-          data.balances.forEach(function(line){
-            if (line.asset_type == 'native') {
-              accept.push($rootScope.currentNetwork.coin.code);
-              code = $rootScope.currentNetwork.coin.code;
-              issuer = '';
-              name = $rootScope.currentNetwork.coin.name;
-              logo = $rootScope.currentNetwork.coin.logo;
-            } else {
-              if (accept.indexOf(line.asset_code) < 0) {
-                accept.push(line.asset_code);
-              }
-              code = line.asset_code;
-              issuer = line.asset_issuer;
-              var gateway = $rootScope.gateways.getSourceById(issuer);
-              name = gateway.name;
-              logo = gateway.logo;
-            }
-
-            $scope.send.unshift({
-              code   : code,
-              issuer : issuer,
-              name   : name,
-              logo   : logo
-            });
-          });
-          $scope.real_accept = accept.join(', ');
+          $scope.send_error.message = StellarApi.getErrMsg(err);
+          console.error('resolveAccountInfo', err);
         }
+      }).finally(() => {
+        $scope.act_loading = false;
         $scope.$apply();
       });
     };
