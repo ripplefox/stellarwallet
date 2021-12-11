@@ -13,6 +13,17 @@ myApp.factory('IcoDataFactory', ['$rootScope', function($scope) {
             "p2_cn": "恒星上的ULT Token由ripplefox.com提供服务。"
           },
           {
+            "name": "Aquarius",
+            "name_cn": "Aquarius",
+            "website": "https://aqua.network/",
+            "code": "AQUA",
+            "issuer": "GBNZILSTVQZ4R7IKQDGHYGY2QXL5QOFJYQMXPKWRRM5PAV7Y4M67AQUA",
+            "p1": "Aquarius is designed to supercharge trading on Stellar, bring more liquidity and give control over how it is distributed across various market pairs.",
+            "p1_cn": "Aquarius 旨在增强 Stellar 上的交易，带来更多流动性并控制其在各种市场对中的分布方式。",
+            "p2": "AQUA is the currency for rewards and on-chain voting in Aquarius. ",
+            "p2_cn": "AQUA 是用于奖励和链上投票的资产。"
+          },
+          {
             "name": "Mobius",
             "name_cn": "Mobius",
             "website": "https://mobius.network",
@@ -33,18 +44,7 @@ myApp.factory('IcoDataFactory', ['$rootScope', function($scope) {
             "p1_cn": "用最先进的技术承载最传统的文化。Ultiledger纪念酒让传统酱香酒在链上流转。",
             "p2": "Let the wine that is more fragrant and fragrant can be circulated.",
             "p2_cn": "2018年11月18日开始公开流转。"
-          },
-          {
-            "name": "Repo Coin",
-            "name_cn": "Repo Coin",
-            "website": "https://repocoin.io",
-            "code": "REPO",
-            "issuer": "GCZNF24HPMYTV6NOEHI7Q5RJFFUI23JKUKY3H3XTQAFBQIBOHD5OXG3B",
-            "p1": "Bringing the $1 billion auto repossession industry onto the blockchain.",
-            "p1_cn": "将10亿美元的汽车行业带到区块链中。",
-            "p2": "Vehicle repossession just got easier.",
-            "p2_cn": "让汽车回收变得更加容易。"
-          },
+          },          
           {
             "name": "Dried Fish",
             "name_cn": "小鱼干",

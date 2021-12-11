@@ -87,11 +87,11 @@ myApp.factory('GatewayFactory', ['$rootScope', 'StellarApi',
         },
         "AQUA": {
           "name": "Aquarius",
-          "website": "",
+          "website": "https://aqua.network/",
           "assets": {
             "AQUA": {"code": "AQUA", "issuer": "GBNZILSTVQZ4R7IKQDGHYGY2QXL5QOFJYQMXPKWRRM5PAV7Y4M67AQUA", "display_decimals": 7, list:false}
           },
-          "logo": "https://airdrop.aqua.network/assets/img/aqua-logo.svg"
+          "logo": "https://aqua.network/assets/img/logo.png"
         }
 
       },
