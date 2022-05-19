@@ -12,8 +12,10 @@ myApp.factory('SettingFactory', function($window) {
         networkPassphrase: StellarSdk.Networks.PUBLIC,
         knownHorizons: [
           'https://horizon.stellar.org',  // First one is default.
+          'https://horizon.publicnode.org/',
+          'https://h.fchain.io/',
           'https://h.s1yun.com/v1',
-          'https://horizon.fchain.io',
+          'https://horizon.stellar.coinqvest.com/',
           'https://stellar-horizon.satoshipay.io',
           'https://horizon.stellar.lobstr.co'
         ],
@@ -82,9 +84,10 @@ myApp.factory('SettingFactory', function($window) {
       if ($window.localStorage['lang']) {
         return $window.localStorage['lang'];
       } else {
-        if (nw.global.navigator.language.indexOf('zh') >= 0) {
+        var lang = navigator.language || navigator.userLanguage;
+        if (lang.indexOf('zh') >= 0) {
           return 'cn';
-        } else if (nw.global.navigator.language.indexOf('fr') >= 0) {
+        } else if (lang.indexOf('fr') >= 0) {
           return 'fr';
         } else {
           return 'en';

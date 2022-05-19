@@ -1,5 +1,3 @@
-const bip39 = require('bip39');
-const {derivePath} = require('ed25519-hd-key');
 
 myApp.factory('Id', function($window) {
   

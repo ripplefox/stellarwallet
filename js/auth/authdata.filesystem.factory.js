@@ -7,8 +7,6 @@
 
 // There's currently a code repetition between blobLocal and blobRemote..
 'use strict';
-const fs = require('fs');
-const sjcl = require('sjcl');
 
 myApp.factory('AuthDataFilesystem', ['$window', 'AuthData', function ($window, AuthData){
 
@@ -78,16 +76,9 @@ myApp.factory('AuthDataFilesystem', ['$window', 'AuthData', function ($window, A
         created: (new Date()).toJSON(),
       });
 
-      return authData.save()
-        .catch((err)=>{
-          //The default folder is the root of HD when the first time user save file on Mac.
-          // EACCES: permission denied
-          if (nw.global.navigator.platform.indexOf('Mac') >= 0 && err.message.indexOf('permission denied') >= 0) {
-            throw new Error("Permission denied. Please choose another location.");
-          }
-
-          throw err;
-        });
+      return new Promise((resolve, reject) => {
+        resolve(authData.store());
+      })
     }
 
     // restore() => AuthDataFilesystem -- restore from sessionStorage and return instance.
@@ -106,17 +97,20 @@ myApp.factory('AuthDataFilesystem', ['$window', 'AuthData', function ($window, A
     // load(...params:any[]) => Promise<AuthDataFilesystem> -- load from filesystem and return Promise of instance.
     static load(opts) {
       return new Promise((resolve, reject) => {
-        fs.readFile(opts.path, 'utf8', (err, blob) => {
-          if (err) return reject(err);
-
+        var reader = new FileReader();
+        reader.readAsText(opts.file, 'UTF-8');
+        reader.onload = function (e) {
           try {
-            resolve(AuthDataFilesystem.fromBlob(opts.password, opts.path, blob));
+            resolve(AuthDataFilesystem.fromBlob(opts.password, opts.path, reader.result));
           } catch(e) {
             reject(e);
           }
 
-        });
+        };
 
+        reader.onerror = function(e) {
+          return reject(err);
+        };
       })
     }
 

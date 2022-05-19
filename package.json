@@ -1,6 +1,6 @@
 {
   "name": "FoxletStellar",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "description": "Foxlet destktop client for Stellar",
   "main": "main.js",
   "chromium-args": "--disable-gpu",

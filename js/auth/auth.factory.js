@@ -254,8 +254,8 @@ myApp.factory('TokenInterceptor', ($q, $window) => {
 myApp.factory('FileDialog', ['$rootScope', function($scope) {
   const _callDialog = (dialog, callback) => {
     dialog.addEventListener('change', () => {
-      const result = dialog.value;
-      callback(result);
+      const fullpath = dialog.value;
+      callback(fullpath, dialog.files[0]);
     }, false);
     dialog.click();
   };
